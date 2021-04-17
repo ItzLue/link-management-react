@@ -24,3 +24,5 @@ yarn-error.log*
 .idea
 tailwind.generated.css
 
+public/manifest.json
+public/manifest.json

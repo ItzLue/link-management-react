@@ -1,0 +1,11 @@
+# Ignore artifacts:
+build
+coverage
+node_modules
+.next
+README.md
+package-lock.json
+src/styles/tailwind.css
+*.min.*
+tsconfig.json
+tailwind.config.js
