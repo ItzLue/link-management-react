@@ -1,4 +1,4 @@
-export type videoData = {
+export type IVideoData = {
 	bitrate: number;
 	ping: number;
 	protocol: string;

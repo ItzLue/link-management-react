@@ -3,6 +3,7 @@ import { HiVideoCamera } from 'react-icons/hi';
 import Navigation from './components/navigation/Navigation';
 import { IMenuItem } from './types/MenuItems';
 import DataCard from './components/containers/DataCard';
+import { IVideoData } from './types/api/data';
 
 const menuItems: IMenuItem[] = [
 	{
@@ -26,13 +27,12 @@ const menuItems: IMenuItem[] = [
 ];
 
 const App: React.FC = () => {
-	const data: string[] = ['title1', 'title2', 'title3'];
+	const [videoData, setVideoData] = useState<IVideoData[]>([]);
 
 	return (
 		<div className='place-content-center'>
-			{data.map((item, key) => (
-				<DataCard title={item} key={key} />
-			))}
+			<DataCard title='Title1'></DataCard>
+			<Navigation menuItems={menuItems} />
 		</div>
 	);
 };
