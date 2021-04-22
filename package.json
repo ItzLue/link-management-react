@@ -41,12 +41,12 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "predeploy": "react-scripts build",
+    "predeploy": "react-scripts build ",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "TAILWIND_MODE=watch NODE_ENV=development postcss tailwind.css -o ./dist/tailwind.css -w"
+    "fix": "npx prettier --write src && npx eslint --fix src"
   },
   "eslintConfig": {
     "extends": [
