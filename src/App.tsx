@@ -7,13 +7,17 @@ import CardList from './components/containers/CardList';
 import Navigation from './components/navigation/Navigation';
 import axios from 'axios';
 import Video from './components/containers/Video';
+import History from './components/containers/History';
+import Framing from './components/containers/Framing';
+import Encryption from './components/containers/Encryption';
+import {FaHistory} from "react-icons/fa";
 
 const menuItems: IMenuItem[] = [
 	{
 		id: 0,
-		title: 'nav1',
-		link: 'link',
-		icon: <HiAnnotation />
+		title: 'History',
+		link: '/history',
+		icon: <FaHistory/>
 	},
 	{
 		id: 1,
@@ -48,15 +52,15 @@ const App: React.FC = () => {
 				</Route>
 
 				<Route path='/framing'>
-					<div>
-						<h2>Framing data</h2>
-					</div>
+					<Framing data={videoData} />
 				</Route>
 
 				<Route path='/encryption'>
-					<div>
-						<h2>Encryption data</h2>
-					</div>
+					<Encryption data={videoData}/>
+				</Route>
+
+				<Route path='/history'>
+					<History data={videoData}/>
 				</Route>
 
 				<Route path='/'>
