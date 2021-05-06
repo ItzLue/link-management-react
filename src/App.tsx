@@ -10,14 +10,14 @@ import Video from './components/containers/Video';
 import History from './components/containers/History';
 import Framing from './components/containers/Framing';
 import Encryption from './components/containers/Encryption';
-import {FaHistory} from "react-icons/fa";
+import { FaHistory } from 'react-icons/fa';
 
 const menuItems: IMenuItem[] = [
 	{
 		id: 0,
 		title: 'History',
 		link: '/history',
-		icon: <FaHistory/>
+		icon: <FaHistory />
 	},
 	{
 		id: 1,
@@ -52,15 +52,15 @@ const App: React.FC = () => {
 				</Route>
 
 				<Route path='/framing'>
-					<Framing data={videoData} />
+					<Framing data={framingData} />
 				</Route>
 
 				<Route path='/encryption'>
-					<Encryption data={videoData}/>
+					<Encryption data={encryptionData} />
 				</Route>
 
 				<Route path='/history'>
-					<History data={videoData}/>
+					<History data={videoData} />
 				</Route>
 
 				<Route path='/'>
