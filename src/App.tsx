@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HiAnnotation, HiHome, HiVideoCamera } from 'react-icons/hi';
+import { HiHome, HiVideoCamera } from 'react-icons/hi';
 import { IMenuItem } from './types/MenuItems';
 import { IEncryptionData, IFramingData, IVideoData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -8,9 +8,9 @@ import Navigation from './components/navigation/Navigation';
 import axios from 'axios';
 import Video from './components/containers/Video';
 import History from './components/containers/History';
-import Framing from './components/containers/Framing';
-import Encryption from './components/containers/Encryption';
 import { FaHistory } from 'react-icons/fa';
+import Encryption from './components/containers/Encryption';
+import Framing from './components/containers/Framing';
 
 const menuItems: IMenuItem[] = [
 	{
