@@ -35,7 +35,7 @@ type ICardProps = {
 
 const Card: React.FC<ICardProps> = ({ title, path, videoData, framingData, encryptionData }) => (
 	<Link to={path}>
-		<div className='rounded-3xl border border-gray-100 text-center h-32 my-8'>
+		<div className='rounded-3xl border border-gray-100 text-center h-48 max-h-48 md:p-8'>
 			<h2 className='font-medium text-lg'>{title}</h2>
 			{path === 'video' && generateVideoCardData(videoData)}
 			{path === 'framing' && generateFramingCardData(framingData)}
@@ -52,7 +52,7 @@ type ICardListProps = {
 const CardList: React.FC<ICardListProps> = ({ videoData, framingData, encryptionData }) => {
 	return (
 		<>
-			<div className='p-8'>
+			<div className='grid grid-rows-1 md:grid-flow-col px-8 gap-8 h-full'>
 				{cardData.map((card, key) => (
 					<Card title={card.title} path={card.path} key={key} videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
 				))}

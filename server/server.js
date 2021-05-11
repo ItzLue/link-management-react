@@ -10,35 +10,29 @@ const randomScalingFactor = () => {
 	return Math.round(Math.random() * 1000);
 };
 
-const videoData = {
-	bitrate: 1,
-	ping: randomScalingFactor(),
-	protocol: 'UDP',
-	protocolVersion: 'IPv4'
-};
-
-const framingData = {
-	errorsDetected: randomScalingFactor(),
-	errorsCorrected: randomScalingFactor()
-};
-
 const encryptionData = {
 	isEnabled: true,
 	type: 'RSA'
 };
 
 app.get('/video', (req, res) => {
-	res.send(videoData);
+	res.send({
+		bitrate: randomScalingFactor(),
+		ping: randomScalingFactor(),
+		protocol: 'UDP',
+		protocolVersion: 'IPv4'
+	});
 });
 
 app.get('/framing', (req, res) => {
-	res.send(framingData);
+	res.send({
+		errorsDetected: randomScalingFactor(),
+		errorsCorrected: randomScalingFactor()
+	});
 });
 
 app.get('/encryption', (req, res) => {
 	res.send(encryptionData);
 });
 
-app.listen(port, () => {
-	console.log(`Example app listening at http://localhost:${port}`);
-});
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
