@@ -10,8 +10,8 @@ const Framing: React.FC<IProps> = ({ data }) => {
 				<p>FRAMING DATA</p>
 			</div>
 			<div className='text-center bg-green-300 h-full'>
-				<p>Errors detected {data?.[0].errorsDetected}</p>
-				<p>Errors corrected {data?.[0].errorsCorrected}</p>
+				<p>Errors detected {data?.[data?.length - 1].errorsDetected}</p>
+				<p>Errors corrected {data?.[data?.length - 1].errorsCorrected}</p>
 			</div>
 		</div>
 	);

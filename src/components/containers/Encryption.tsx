@@ -10,8 +10,8 @@ const Encryption: React.FC<IProps> = ({ data }) => {
 				<p>ENCRYPTION DATA</p>
 			</div>
 			<div className='text-center bg-red-400'>
-				<p> Encryption {data?.[0].isEnabled}</p>
-				<p>Type {data?.[0].type}</p>
+				<p> Encryption {data?.[data?.length - 1].isEnabled}</p>
+				<p>Type {data?.[data?.length - 1].type}</p>
 			</div>
 		</div>
 	);
