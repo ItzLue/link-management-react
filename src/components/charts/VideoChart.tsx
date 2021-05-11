@@ -2,9 +2,15 @@ import React from 'react';
 import { IVideoData } from '../../types/api/data';
 
 type IProps = {
-	data: IVideoData;
+	videoData: IVideoData;
 };
-const VideoChart: React.FC<IProps> = ({ data }) => {
+const VideoChart: React.FC<IProps> = ({ videoData }) => {
+	const data = {
+		labels: [],
+		datasets: {
+			data: [videoData.bitrate]
+		}
+	};
 	return <div></div>;
 };
 

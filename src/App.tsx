@@ -34,14 +34,16 @@ const menuItems: IMenuItem[] = [
 ];
 
 const App: React.FC = () => {
-	const [videoData, setVideoData] = useState<IVideoData>();
-	const [framingData, setFramingData] = useState<IFramingData>();
-	const [encryptionData, setEncryptionData] = useState<IEncryptionData>();
+	const [videoData, setVideoData] = useState<IVideoData[]>([]);
+	const [framingData, setFramingData] = useState<IFramingData[]>([]);
+	const [encryptionData, setEncryptionData] = useState<IEncryptionData[]>([]);
 
 	useEffect(() => {
-		axios.get('http://localhost:4000/video').then((res) => setVideoData(res.data));
-		axios.get('http://localhost:4000/framing').then((res) => setFramingData(res.data));
-		axios.get('http://localhost:4000/encryption').then((res) => setEncryptionData(res.data));
+		setInterval(() => {
+			axios.get('http://localhost:4000/video').then((res) => setVideoData([...videoData, res.data]));
+			axios.get('http://localhost:4000/framing').then((res) => setFramingData([...framingData, res.data]));
+			axios.get('http://localhost:4000/encryption').then((res) => setEncryptionData([...encryptionData, res.data]));
+		}, 7000);
 	}, []);
 
 	return (
@@ -64,7 +66,7 @@ const App: React.FC = () => {
 				</Route>
 
 				<Route path='/'>
-					<CardList videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
+					<CardList videoData={videoData[0]} framingData={framingData[0]} encryptionData={encryptionData[0]} />
 				</Route>
 			</Switch>
 			<Navigation menuItems={menuItems} />
