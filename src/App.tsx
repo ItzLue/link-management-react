@@ -46,13 +46,11 @@ const App: React.FC = () => {
 
 	useEffect(() => {
 		getData();
+		const interval = setInterval(() => {
+			getData();
+		}, 10000);
+		return () => clearInterval(interval);
 	}, []);
-
-	useEffect(() => {
-		setInterval(() => {
-			axios.get('http://localhost:4000/video').then((res) => setVideoData([...videoData, res.data]));
-		}, 7000);
-	}, [videoData]);
 
 	return (
 		<Router>

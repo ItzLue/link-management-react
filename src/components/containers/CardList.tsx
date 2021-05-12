@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IEncryptionData, IFramingData, IVideoData } from '../../types/api/data';
+import { HiRefresh } from 'react-icons/all';
 
 const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
 
@@ -35,11 +36,18 @@ type ICardProps = {
 
 const Card: React.FC<ICardProps> = ({ title, path, videoData, framingData, encryptionData }) => (
 	<Link to={path}>
-		<div className='rounded-3xl border border-gray-100 text-center h-48 max-h-48 md:p-8'>
+		<div className='rounded-2xl border border-gray-100 shadow-md h-48 max-h-48 md:p-8 relative'>
 			<h2 className='font-medium text-lg'>{title}</h2>
 			{path === 'video' && generateVideoCardData(videoData)}
 			{path === 'framing' && generateFramingCardData(framingData)}
 			{path === 'encryption' && generateEncryptionCardData(encryptionData)}
+			<div className='flex flex-col absolute bottom-0 m-2'>
+				<hr className='border-gray-100 w-full' />
+				<div className='inline-flex items-center text-gray-500'>
+					<HiRefresh className='h-4 w-4 mr-2' />
+					<p>Last updated: 5 min ago</p>
+				</div>
+			</div>
 		</div>
 	</Link>
 );
