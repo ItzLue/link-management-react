@@ -43,7 +43,6 @@ const App: React.FC = () => {
 		axios.get('http://localhost:4000/framing').then((res) => setFramingData([...framingData, res.data]));
 		axios.get('http://localhost:4000/encryption').then((res) => setEncryptionData([...encryptionData, res.data]));
 	};
-
 	useEffect(() => {
 		getData();
 		const interval = setInterval(() => {
@@ -68,7 +67,7 @@ const App: React.FC = () => {
 				</Route>
 
 				<Route path='/history'>
-					<History data={videoData} />
+					<History videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
 				</Route>
 
 				<Route path='/'>
