@@ -34,21 +34,24 @@ const menuItems: IMenuItem[] = [
 ];
 
 const App: React.FC = () => {
+	const INTERVAL = 2000; // in milliseconds
+	const MAX_LENGTH = 5;
 	const [videoData, setVideoData] = useState<IVideoData[]>([]);
 	const [framingData, setFramingData] = useState<IFramingData[]>([]);
 	const [encryptionData, setEncryptionData] = useState<IEncryptionData[]>([]);
 
-	const getData = () => {
-		axios.get('http://localhost:4000/video').then((res) => setVideoData([...videoData, res.data]));
-		axios.get('http://localhost:4000/framing').then((res) => setFramingData([...framingData, res.data]));
-		axios.get('http://localhost:4000/encryption').then((res) => setEncryptionData([...encryptionData, res.data]));
-	};
+	async function pollData<T>(acc: any[], setter: any, endpointURL: string): Promise<void> {
+		const response = await axios.get<T>(endpointURL);
+		if (acc.length === MAX_LENGTH) acc.shift();
+		const newData = [...acc, response.data];
+		setter(newData);
+		setTimeout(() => pollData(newData, setter, endpointURL), INTERVAL);
+	}
+
 	useEffect(() => {
-		getData();
-		const interval = setInterval(() => {
-			getData();
-		}, 10000);
-		return () => clearInterval(interval);
+		pollData(videoData, setVideoData, 'http://localhost:4000/video');
+		pollData(framingData, setFramingData, 'http://localhost:4000/framing');
+		pollData(encryptionData, setEncryptionData, 'http://localhost:4000/encryption');
 	}, []);
 
 	return (
