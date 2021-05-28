@@ -34,8 +34,8 @@ const menuItems: IMenuItem[] = [
 ];
 
 const App: React.FC = () => {
-	const INTERVAL = 2000; // in milliseconds
-	const MAX_LENGTH = 5;
+	const INTERVAL = 10000; // in milliseconds
+	const MAX_LENGTH = 30;
 	const [videoData, setVideoData] = useState<IVideoData[]>([]);
 	const [framingData, setFramingData] = useState<IFramingData[]>([]);
 	const [encryptionData, setEncryptionData] = useState<IEncryptionData[]>([]);
