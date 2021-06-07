@@ -1,5 +1,6 @@
 import React from 'react';
 import { IVideoData } from '../../types/api/data';
+import VideoChart from '../charts/VideoChart';
 
 type IProps = { data?: IVideoData[] };
 
@@ -13,6 +14,8 @@ const Video: React.FC<IProps> = ({ data }) => {
 				<p>ping {data?.[data?.length - 1].ping}</p>
 				<p>bitrate {data?.[data?.length - 1].bitrate}</p>
 			</div>
+
+			<VideoChart videoData={data ?? []} />
 		</>
 	);
 };
