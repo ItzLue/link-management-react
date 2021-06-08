@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IEncryptionData, IFramingData, IVideoData } from '../../types/api/data';
-import {HiLockClosed, HiRefresh} from 'react-icons/all';
+import { HiLockClosed, HiLockOpen, HiRefresh } from 'react-icons/all';
 
 const transition = { duration: 0.5, ease: [0.43, 0.13, 0.23, 0.96] };
 
@@ -91,11 +91,11 @@ const generateFramingCardData = (data: IFramingData | undefined) => {
 };
 
 const generateEncryptionCardData = (data: IEncryptionData | undefined) => {
-
-	const iconClassName = 'w-8 h-8 '
+	const iconClassName = 'w-full h-14';
 	return (
-		<div className='items-center w-full h-full'>
-			<HiLockClosed className={iconClassName}/>
+		<div className='items-center text-center w-full h-full'>
+			{data?.isEnabled ? <HiLockClosed className={`${iconClassName} text-green-400`} /> : <HiLockOpen className={`${iconClassName} text-red-400`} />}
+			<p>{`Type: ${data?.type}`}</p>
 		</div>
 	);
 };
