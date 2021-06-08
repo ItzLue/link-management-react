@@ -26,12 +26,12 @@ const FramingChart: React.FC<IProps> = ({framingData }) => {
             {
                 label: 'Eroors detected',
                 data: framingData.map((d) => d.errorsDetected),
-                backgroundColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgb(246,75,95)',
             },
             {
                 label: 'Errors corrected',
                 data: framingData.map((d) => d.errorsCorrected),
-                backgroundColor: 'rgb(54, 162, 235)',
+                backgroundColor: 'rgb(26,214,220)',
             },
         ],
     };
