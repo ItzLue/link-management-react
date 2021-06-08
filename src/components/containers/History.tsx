@@ -2,12 +2,17 @@ import React from 'react';
 import { Disclosure } from '@headlessui/react';
 import { IEncryptionData, IFramingData, IVideoData } from '../../types/api/data';
 import { HiArrowNarrowDown } from 'react-icons/all';
+import { FaHistory } from 'react-icons/fa';
 
 type IProps = { videoData?: IVideoData[]; framingData: IFramingData[]; encryptionData: IEncryptionData[] };
 
 const History: React.FC<IProps> = ({ videoData, framingData, encryptionData }) => {
 	return (
 		<div className='w-full px-4 pt-16'>
+			<h1 className='text-center text-2xl'>
+				<FaHistory className='mr-2 inline' />
+				Previous transmissions
+			</h1>
 			<div className='w-full max-w-md p-2 mx-auto bg-white rounded-2xl'>
 				<Disclosure as='div' className='mt-2'>
 					{({ open }) => (
