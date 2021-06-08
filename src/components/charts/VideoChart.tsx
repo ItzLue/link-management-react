@@ -8,19 +8,17 @@ type IProps = { videoData: IVideoData[] };
 const VideoChart: React.FC<IProps> = ({ videoData }) => {
 	const [labels, setLabels] = useState<string[]>([]);
 
-	const makeDateData = () => {
+	const makeTimeLabels = () => {
 		setInterval(() => {
 			const date = dayjs(Date.now()).format('HH:mm:ss').toString();
 			setLabels([...labels, date]);
 		}, 10000);
 	};
 
-	useEffect(() => {
-		makeDateData();
-	}, [labels, setLabels]);
+	useEffect(() => makeTimeLabels(), [labels, setLabels]);
 
 	const dataBitrate = {
-		labels: labels,
+		labels,
 		datasets: [
 			{
 				label: 'Bitrate',
@@ -62,8 +60,7 @@ const VideoChart: React.FC<IProps> = ({ videoData }) => {
 			<Line options={options} data={dataBitrate} type='line' />
 			<Line options={options} data={dataPing} type='line' />
 		</>
-
-	)
+	);
 };
 
 export default VideoChart;
