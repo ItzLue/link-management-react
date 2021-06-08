@@ -9,7 +9,6 @@ import axios from 'axios';
 import Video from './components/containers/Video';
 import History from './components/containers/History';
 import { FaHistory } from 'react-icons/fa';
-import Encryption from './components/containers/Encryption';
 import Framing from './components/containers/Framing';
 
 const menuItems: IMenuItem[] = [
@@ -64,11 +63,9 @@ const App: React.FC = () => {
 					<Framing data={framingData} />
 				</Route>
 				{/*
-						<Route path='/encryption'>
+				<Route path='/encryption'>
 					<Encryption data={encryptionData} />
 				</Route>
-
-iconCla
 				*/}
 				iconClassName
 				<Route path='/history'>
