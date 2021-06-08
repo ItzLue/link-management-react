@@ -19,12 +19,25 @@ const VideoChart: React.FC<IProps> = ({ videoData }) => {
 		makeDateData();
 	}, [labels, setLabels]);
 
-	const data = {
+	const dataBitrate = {
 		labels: labels,
 		datasets: [
 			{
-				label: '# of Votes',
+				label: 'Bitrate',
 				data: videoData.map((d) => d.bitrate),
+				fill: false,
+				backgroundColor: 'rgb(255, 99, 132)',
+				borderColor: 'rgba(255, 99, 132, 0.2)'
+			}
+		]
+	};
+
+	const dataPing = {
+		labels: labels,
+		datasets: [
+			{
+				label: 'Ping',
+				data: videoData.map((d) => d.ping),
 				fill: false,
 				backgroundColor: 'rgb(255, 99, 132)',
 				borderColor: 'rgba(255, 99, 132, 0.2)'
@@ -44,7 +57,13 @@ const VideoChart: React.FC<IProps> = ({ videoData }) => {
 		}
 	};
 
-	return <Line options={options} data={data} type='line' />;
+	return (
+		<>
+			<Line options={options} data={dataBitrate} type='line' />
+			<Line options={options} data={dataPing} type='line' />
+		</>
+
+	)
 };
 
 export default VideoChart;
