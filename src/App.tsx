@@ -60,19 +60,20 @@ const App: React.FC = () => {
 				<Route path='/video'>
 					<Video data={videoData} />
 				</Route>
-
 				<Route path='/framing'>
 					<Framing data={framingData} />
 				</Route>
-
-				<Route path='/encryption'>
+				{/*
+						<Route path='/encryption'>
 					<Encryption data={encryptionData} />
 				</Route>
 
+iconCla
+				*/}
+				iconClassName
 				<Route path='/history'>
 					<History videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
 				</Route>
-
 				<Route path='/'>
 					<CardList videoData={videoData[videoData.length - 1]} framingData={framingData[framingData.length - 1]} encryptionData={encryptionData[encryptionData.length - 1]} />
 				</Route>
