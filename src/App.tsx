@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {HiAdjustments, HiCog, HiHome, HiVideoCamera} from 'react-icons/hi';
+import { HiAdjustments, HiHome } from 'react-icons/hi';
 import { IMenuItem } from './types/MenuItems';
 import { IEncryptionData, IFramingData, IVideoData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -10,8 +10,7 @@ import Video from './components/containers/Video';
 import History from './components/containers/History';
 import { FaHistory } from 'react-icons/fa';
 import Framing from './components/containers/Framing';
-import {GiSettingsKnobs} from "react-icons/all";
-import Settings from "./components/containers/Settings";
+import Settings from './components/containers/Settings';
 
 const menuItems: IMenuItem[] = [
 	{
@@ -50,9 +49,9 @@ const App: React.FC = () => {
 	}
 
 	useEffect(() => {
-		pollData(videoData, setVideoData, 'http://localhost:4000/video');
-		pollData(framingData, setFramingData, 'http://localhost:4000/framing');
-		pollData(encryptionData, setEncryptionData, 'http://localhost:4000/encryption');
+		pollData(videoData, setVideoData, 'http://10.16.168.189:4000/video');
+		pollData(framingData, setFramingData, 'http://10.16.168.189:4000/framing');
+		pollData(encryptionData, setEncryptionData, 'http://10.16.168.189:4000/encryption');
 	}, []);
 
 	return (
@@ -74,7 +73,7 @@ const App: React.FC = () => {
 					<History videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
 				</Route>
 				<Route path='/settings'>
-					<Settings  />
+					<Settings />
 				</Route>
 				<Route path='/'>
 					<CardList videoData={videoData[videoData.length - 1]} framingData={framingData[framingData.length - 1]} encryptionData={encryptionData[encryptionData.length - 1]} />
