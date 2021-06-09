@@ -14,3 +14,12 @@ export type IFramingData = {
 	errorsDetected: number;
 	errorsCorrected: number;
 };
+
+export type IResCurrentData = {
+	message: string;
+	data: {
+		video: IVideoData;
+		encryption: IEncryptionData;
+		framing: IFramingData;
+	};
+};

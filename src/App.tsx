@@ -5,7 +5,6 @@ import { IEncryptionData, IFramingData, IVideoData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CardList from './components/containers/CardList';
 import Navigation from './components/navigation/Navigation';
-import axios from 'axios';
 import Video from './components/containers/Video';
 import History from './components/containers/History';
 import { FaHistory } from 'react-icons/fa';
