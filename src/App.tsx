@@ -11,6 +11,7 @@ import History from './components/containers/History';
 import { FaHistory } from 'react-icons/fa';
 import Framing from './components/containers/Framing';
 import {GiSettingsKnobs} from "react-icons/all";
+import Settings from "./components/containers/Settings";
 
 const menuItems: IMenuItem[] = [
 	{
@@ -71,6 +72,9 @@ const App: React.FC = () => {
 				iconClassName
 				<Route path='/history'>
 					<History videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
+				</Route>
+				<Route path='/settings'>
+					<Settings  />
 				</Route>
 				<Route path='/'>
 					<CardList videoData={videoData[videoData.length - 1]} framingData={framingData[framingData.length - 1]} encryptionData={encryptionData[encryptionData.length - 1]} />
