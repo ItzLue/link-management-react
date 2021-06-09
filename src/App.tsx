@@ -11,6 +11,7 @@ import History from './components/containers/History';
 import { FaHistory } from 'react-icons/fa';
 import Framing from './components/containers/Framing';
 import Settings from './components/containers/Settings';
+import { backend } from './api';
 
 const menuItems: IMenuItem[] = [
 	{
@@ -40,18 +41,18 @@ const App: React.FC = () => {
 	const [framingData, setFramingData] = useState<IFramingData[]>([]);
 	const [encryptionData, setEncryptionData] = useState<IEncryptionData[]>([]);
 
-	async function pollData<T>(acc: any[], setter: any, endpointURL: string): Promise<void> {
-		const response = await axios.get<T>(endpointURL);
+	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
+		const response = await backend.get<T>(endpoint);
 		if (acc.length === MAX_LENGTH) acc.shift();
 		const newData = [...acc, response.data];
 		setter(newData);
-		setTimeout(() => pollData(newData, setter, endpointURL), INTERVAL);
+		setTimeout(() => pollData(newData, setter, endpoint), INTERVAL);
 	}
 
 	useEffect(() => {
-		pollData(videoData, setVideoData, 'http://10.16.168.189:4000/video');
-		pollData(framingData, setFramingData, 'http://10.16.168.189:4000/framing');
-		pollData(encryptionData, setEncryptionData, 'http://10.16.168.189:4000/encryption');
+		pollData(videoData, setVideoData, 'video');
+		pollData(framingData, setFramingData, 'framing');
+		pollData(encryptionData, setEncryptionData, 'encryption');
 	}, []);
 
 	return (
