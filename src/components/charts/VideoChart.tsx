@@ -37,8 +37,8 @@ const VideoChart: React.FC<IProps> = ({ videoData }) => {
 				label: 'Ping',
 				data: videoData.map((d) => d.ping),
 				fill: false,
-				backgroundColor: 'rgb(255, 99, 132)',
-				borderColor: 'rgba(255, 99, 132, 0.2)'
+				backgroundColor: 'rgb(54,232,196)',
+				borderColor: 'rgba(76,250,193,0.2)'
 			}
 		]
 	};

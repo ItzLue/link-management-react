@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HiHome, HiVideoCamera } from 'react-icons/hi';
+import {HiAdjustments, HiCog, HiHome, HiVideoCamera} from 'react-icons/hi';
 import { IMenuItem } from './types/MenuItems';
 import { IEncryptionData, IFramingData, IVideoData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -10,6 +10,7 @@ import Video from './components/containers/Video';
 import History from './components/containers/History';
 import { FaHistory } from 'react-icons/fa';
 import Framing from './components/containers/Framing';
+import {GiSettingsKnobs} from "react-icons/all";
 
 const menuItems: IMenuItem[] = [
 	{
@@ -26,9 +27,9 @@ const menuItems: IMenuItem[] = [
 	},
 	{
 		id: 2,
-		title: 'nav3',
-		link: 'link',
-		icon: <HiVideoCamera />
+		title: 'Settings',
+		link: '/settings',
+		icon: <HiAdjustments />
 	}
 ];
 
