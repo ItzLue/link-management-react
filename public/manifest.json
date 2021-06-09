@@ -21,6 +21,5 @@
   "start_url": ".",
   "display": "fulscreen",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "icon": "logo512.png",
+  "background_color": "#ffffff"
 }
