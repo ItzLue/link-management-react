@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HiAdjustments, HiHome } from 'react-icons/hi';
+import {HiAdjustments, HiCog, HiHome} from 'react-icons/hi';
 import { IMenuItem } from './types/MenuItems';
 import { IEncryptionData, IFramingData, IVideoData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -30,7 +30,7 @@ const menuItems: IMenuItem[] = [
 		id: 2,
 		title: 'Settings',
 		link: '/settings',
-		icon: <HiAdjustments />
+		icon: <HiAdjustments/>
 	}
 ];
 
