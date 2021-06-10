@@ -11,6 +11,7 @@ import { FaHistory } from 'react-icons/fa';
 import Framing from './components/containers/Framing';
 import Settings from './components/containers/Settings';
 import { backend } from './api';
+import dayjs from 'dayjs';
 
 const menuItems: IMenuItem[] = [
 	{
@@ -39,6 +40,7 @@ const App: React.FC = () => {
 	const [videoData, setVideoData] = useState<IVideoData[]>([]);
 	const [framingData, setFramingData] = useState<IFramingData[]>([]);
 	const [encryptionData, setEncryptionData] = useState<IEncryptionData[]>([]);
+	const [timeSinceFetch, setTimeSinceFetch] = useState(dayjs());
 
 	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
 		const response = await backend.get<T>(endpoint);
