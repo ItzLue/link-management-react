@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/link-management-react/static/css/main.d1446018.chunk.css",
-    "main.js": "/link-management-react/static/js/main.1d8a2904.chunk.js",
-    "main.js.map": "/link-management-react/static/js/main.1d8a2904.chunk.js.map",
+    "main.css": "/link-management-react/static/css/main.c3a086f0.chunk.css",
+    "main.js": "/link-management-react/static/js/main.9adf6fe0.chunk.js",
+    "main.js.map": "/link-management-react/static/js/main.9adf6fe0.chunk.js.map",
     "runtime-main.js": "/link-management-react/static/js/runtime-main.b44fef4d.js",
     "runtime-main.js.map": "/link-management-react/static/js/runtime-main.b44fef4d.js.map",
     "static/css/2.55cde63d.chunk.css": "/link-management-react/static/css/2.55cde63d.chunk.css",
-    "static/js/2.df1f0189.chunk.js": "/link-management-react/static/js/2.df1f0189.chunk.js",
-    "static/js/2.df1f0189.chunk.js.map": "/link-management-react/static/js/2.df1f0189.chunk.js.map",
+    "static/js/2.cbb7cb3d.chunk.js": "/link-management-react/static/js/2.cbb7cb3d.chunk.js",
+    "static/js/2.cbb7cb3d.chunk.js.map": "/link-management-react/static/js/2.cbb7cb3d.chunk.js.map",
     "static/js/3.e519ea53.chunk.js": "/link-management-react/static/js/3.e519ea53.chunk.js",
     "static/js/3.e519ea53.chunk.js.map": "/link-management-react/static/js/3.e519ea53.chunk.js.map",
     "index.html": "/link-management-react/index.html",
     "service-worker.js": "/link-management-react/service-worker.js",
     "service-worker.js.map": "/link-management-react/service-worker.js.map",
     "static/css/2.55cde63d.chunk.css.map": "/link-management-react/static/css/2.55cde63d.chunk.css.map",
-    "static/css/main.d1446018.chunk.css.map": "/link-management-react/static/css/main.d1446018.chunk.css.map",
-    "static/js/2.df1f0189.chunk.js.LICENSE.txt": "/link-management-react/static/js/2.df1f0189.chunk.js.LICENSE.txt"
+    "static/css/main.c3a086f0.chunk.css.map": "/link-management-react/static/css/main.c3a086f0.chunk.css.map",
+    "static/js/2.cbb7cb3d.chunk.js.LICENSE.txt": "/link-management-react/static/js/2.cbb7cb3d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b44fef4d.js",
     "static/css/2.55cde63d.chunk.css",
-    "static/js/2.df1f0189.chunk.js",
-    "static/css/main.d1446018.chunk.css",
-    "static/js/main.1d8a2904.chunk.js"
+    "static/js/2.cbb7cb3d.chunk.js",
+    "static/css/main.c3a086f0.chunk.css",
+    "static/js/main.9adf6fe0.chunk.js"
   ]
 }
