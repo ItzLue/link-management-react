@@ -31,7 +31,7 @@ const Settings: React.FC = () => {
 					Settings
 				</h1>
 			</div>
-			
+
 			<input type='text' placeholder='Shared timestamp' className={inputClassName} {...register('Shared timestamp', {})} />
 
 			<div className= 'font-bold text-left'>
