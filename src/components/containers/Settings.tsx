@@ -1,6 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import {HiAdjustments, HiCog} from "react-icons/hi";
+import {FaHistory} from "react-icons/fa";
 
 const Settings: React.FC = () => {
 	const {
@@ -22,7 +24,14 @@ const Settings: React.FC = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className='my-8 mx-4 pb-8 space-y-4 text-center'>
-			<label> SETTINGS </label>
+
+			<div className='w-full px-4'>
+				<h1 className='text-center text-2xl'>
+					<HiAdjustments className='mr-2 inline' />
+					Settings
+				</h1>
+			</div>
+			
 			<input type='text' placeholder='Shared timestamp' className={inputClassName} {...register('Shared timestamp', {})} />
 
 			<div className= 'font-bold text-left'>
