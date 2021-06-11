@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {HiAdjustments, HiCog, HiHome} from 'react-icons/hi';
+import {HiAdjustments, HiHome} from 'react-icons/hi';
 import { IMenuItem } from './types/MenuItems';
 import { IEncryptionData, IFramingData, IVideoData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -44,15 +44,15 @@ const App: React.FC = () => {
 	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
 		const response = await backend.get<T>(endpoint);
 		if (acc.length === MAX_LENGTH) acc.shift();
-		const newData = [...acc, response.data];
+		const newData = [...acc, response?.data];
 		setter(newData);
 		setTimeout(() => pollData(newData, setter, endpoint), INTERVAL);
 	}
 
 	useEffect(() => {
-		pollData(videoData, setVideoData, 'video');
-		pollData(framingData, setFramingData, 'framing');
-		pollData(encryptionData, setEncryptionData, 'encryption');
+		pollData(videoData, setVideoData, 'video').catch(() => console.log('Could not connect to server'));
+		pollData(framingData, setFramingData, 'framing').catch(() => console.log('Could not connect to server'));
+		pollData(encryptionData, setEncryptionData, 'encryption').catch(() => console.log('Could not connect to server'));
 	}, []);
 
 	return (
@@ -76,12 +76,14 @@ const App: React.FC = () => {
 				<Route path='/settings'>
 					<Settings />
 				</Route>
-				<Route path='/'>
-					<CardList videoData={videoData[videoData.length - 1]} framingData={framingData[framingData.length - 1]} encryptionData={encryptionData[encryptionData.length - 1]} />
-				</Route>
 				<Route path='/error'>
 					<ErrorMessage/>
 				</Route>
+				<Route path='/'>
+					<CardList videoData={videoData[videoData.length - 1]} framingData={framingData[framingData.length - 1]} encryptionData={encryptionData[encryptionData.length - 1]} />
+				</Route>
+
+
 			</Switch>
 			<Navigation menuItems={menuItems} />
 		</Router>
