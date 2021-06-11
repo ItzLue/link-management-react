@@ -11,6 +11,7 @@ import { FaHistory } from 'react-icons/fa';
 import Framing from './components/containers/Framing';
 import Settings from './components/containers/Settings';
 import { backend } from './api';
+import ErrorMessage from "./components/containers/ErrorMessage";
 
 const menuItems: IMenuItem[] = [
 	{
@@ -77,6 +78,9 @@ const App: React.FC = () => {
 				</Route>
 				<Route path='/'>
 					<CardList videoData={videoData[videoData.length - 1]} framingData={framingData[framingData.length - 1]} encryptionData={encryptionData[encryptionData.length - 1]} />
+				</Route>
+				<Route path='/error'>
+					<ErrorMessage/>
 				</Route>
 			</Switch>
 			<Navigation menuItems={menuItems} />
