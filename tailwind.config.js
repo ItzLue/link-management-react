@@ -9,5 +9,8 @@ module.exports = {
 	variants: {
 		extend: {}
 	},
+	screens: {
+		standalone: {raw: "(displaymode: standalone)"}
+	},
 	plugins: []
 };
