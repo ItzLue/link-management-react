@@ -1,8 +1,8 @@
 {
-  "homepage": "https://itzlue}.github.io/link-management-react",
+  "homepage": "https://itzlue.github.io/link-management-react/",
   "name": "link-management-react",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@headlessui/react": "^1.2.0",
     "@testing-library/jest-dom": "^5.11.10",
@@ -19,6 +19,7 @@
     "chartjs-plugin-streaming": "^2.0.0-beta.3",
     "dayjs": "^1.10.5",
     "framer-motion": "^4.1.5",
+    "idb-keyval": "^5.0.6",
     "popmotion": "^9.3.5",
     "postcss-import": "^14.0.1",
     "puppeteer": "^10.0.0",
@@ -29,6 +30,7 @@
     "react-google-charts": "^3.0.15",
     "react-hook-form": "^7.8.3",
     "react-icons": "^4.2.0",
+    "react-loadingg": "^1.7.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.2.4",

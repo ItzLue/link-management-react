@@ -60,7 +60,7 @@ type ICardListProps = {
 const CardList: React.FC<ICardListProps> = ({ videoData, framingData, encryptionData }) => {
 	return (
 		<>
-			<div className='grid grid-rows-1 md:grid-flow-col px-8 gap-8 h-full py-8'>
+			<div className='grid grid-rows-1 md:grid-flow-col px-8 gap-8 h-full mt-8 mb-16'>
 				{cardData.map((card, key) => (
 					<Card title={card.title} path={card.path} key={key} videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
 				))}

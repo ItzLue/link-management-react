@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {HiAdjustments, HiHome} from 'react-icons/hi';
+import { HiAdjustments, HiHome } from 'react-icons/hi';
 import { IMenuItem } from './types/MenuItems';
 import { IEncryptionData, IFramingData, IVideoData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -11,7 +11,8 @@ import { FaHistory } from 'react-icons/fa';
 import Framing from './components/containers/Framing';
 import Settings from './components/containers/Settings';
 import { backend } from './api';
-import ErrorMessage from "./components/containers/ErrorMessage";
+import ErrorMessage from './components/containers/ErrorMessage';
+import { set, get } from 'idb-keyval';
 
 const menuItems: IMenuItem[] = [
 	{
@@ -30,7 +31,7 @@ const menuItems: IMenuItem[] = [
 		id: 2,
 		title: 'Settings',
 		link: '/settings',
-		icon: <HiAdjustments/>
+		icon: <HiAdjustments />
 	}
 ];
 
@@ -40,23 +41,27 @@ const App: React.FC = () => {
 	const [videoData, setVideoData] = useState<IVideoData[]>([]);
 	const [framingData, setFramingData] = useState<IFramingData[]>([]);
 	const [encryptionData, setEncryptionData] = useState<IEncryptionData[]>([]);
+	const [errorStatusCode, setErrorStatusCode] = useState<number>(-1);
+	const [isLoading, setIsLoading] = useState(true);
 
 	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
 		const response = await backend.get<T>(endpoint);
 		if (acc.length === MAX_LENGTH) acc.shift();
 		const newData = [...acc, response?.data];
 		setter(newData);
+		if (response.status === 200) await set(endpoint, newData);
 		setTimeout(() => pollData(newData, setter, endpoint), INTERVAL);
 	}
 
 	useEffect(() => {
-		pollData(videoData, setVideoData, 'video').catch(() => console.log('Could not connect to server'));
+		pollData(videoData, setVideoData, 'video').catch((error) => (error.status ? setErrorStatusCode(error.status) : setErrorStatusCode(600)));
 		pollData(framingData, setFramingData, 'framing').catch(() => console.log('Could not connect to server'));
 		pollData(encryptionData, setEncryptionData, 'encryption').catch(() => console.log('Could not connect to server'));
 	}, []);
 
 	return (
 		<Router>
+			{errorStatusCode >= 400 && <ErrorMessage />}
 			<Switch>
 				<Route path='/video'>
 					<Video data={videoData} />
@@ -64,11 +69,6 @@ const App: React.FC = () => {
 				<Route path='/framing'>
 					<Framing data={framingData} />
 				</Route>
-				{/*
-				<Route path='/encryption'>
-					<Encryption data={encryptionData} />
-				</Route>
-				*/}
 				iconClassName
 				<Route path='/history'>
 					<History videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
@@ -76,14 +76,9 @@ const App: React.FC = () => {
 				<Route path='/settings'>
 					<Settings />
 				</Route>
-				<Route path='/error'>
-					<ErrorMessage/>
-				</Route>
 				<Route path='/'>
 					<CardList videoData={videoData[videoData.length - 1]} framingData={framingData[framingData.length - 1]} encryptionData={encryptionData[encryptionData.length - 1]} />
 				</Route>
-
-
 			</Switch>
 			<Navigation menuItems={menuItems} />
 		</Router>

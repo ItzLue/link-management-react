@@ -78,3 +78,15 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+const isPushNotificationSupported = () => {
+	return 'serviceWorker' in navigator && 'PushManager' in window;
+};
+const askUserPermission = async () => {
+	return await Notification.requestPermission();
+};
+
+self.addEventListener('activate', (event) => {
+	console.log(event);
+	console.log('notifications', isPushNotificationSupported());
+	askUserPermission().then((r) => console.log(r));
+});

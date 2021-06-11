@@ -15,11 +15,4 @@ export type IFramingData = {
 	errorsCorrected: number;
 };
 
-export type IResCurrentData = {
-	message: string;
-	data: {
-		video: IVideoData;
-		encryption: IEncryptionData;
-		framing: IFramingData;
-	};
-};
+export type IReadAllData = IVideoData & IFramingData & IEncryptionData;
