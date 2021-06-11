@@ -24,17 +24,5 @@
   "display_override": ["window-control-overlay", "minimal-ui"],
   "display": "standalone",
   "background_color": "#3367D6",
-  "theme_color": "#3367D6",
-  "shortcuts": [
-    {
-      "name": "Open Play Later",
-      "short_name": "Play Later",
-      "description": "View the list of podcasts you saved for later"
-    },
-    {
-      "name": "View Subscriptions",
-      "short_name": "Subscriptions",
-      "description": "View the list of podcasts you listen to"
-    }
-  ]
+  "theme_color": "#3367D6"
 }
