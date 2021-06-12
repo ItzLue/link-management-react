@@ -88,5 +88,5 @@ const askUserPermission = async () => {
 self.addEventListener('activate', (event) => {
 	console.log(event);
 	console.log('notifications', isPushNotificationSupported());
-	askUserPermission().then((r) => console.log(r));
+	askUserPermission().then(() => new Notification('Hey there 👋 Thanks for visiting our PWA - Link management team'));
 });
