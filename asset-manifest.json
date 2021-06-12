@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/link-management-react/static/css/main.c3a086f0.chunk.css",
-    "main.js": "/link-management-react/static/js/main.e047736e.chunk.js",
-    "main.js.map": "/link-management-react/static/js/main.e047736e.chunk.js.map",
-    "runtime-main.js": "/link-management-react/static/js/runtime-main.de45c2f0.js",
-    "runtime-main.js.map": "/link-management-react/static/js/runtime-main.de45c2f0.js.map",
-    "static/css/2.55cde63d.chunk.css": "/link-management-react/static/css/2.55cde63d.chunk.css",
-    "static/js/2.ad69bb81.chunk.js": "/link-management-react/static/js/2.ad69bb81.chunk.js",
-    "static/js/2.ad69bb81.chunk.js.map": "/link-management-react/static/js/2.ad69bb81.chunk.js.map",
-    "static/js/3.fd04ec65.chunk.js": "/link-management-react/static/js/3.fd04ec65.chunk.js",
-    "static/js/3.fd04ec65.chunk.js.map": "/link-management-react/static/js/3.fd04ec65.chunk.js.map",
-    "index.html": "/link-management-react/index.html",
-    "service-worker.js": "/link-management-react/service-worker.js",
-    "service-worker.js.map": "/link-management-react/service-worker.js.map",
-    "static/css/2.55cde63d.chunk.css.map": "/link-management-react/static/css/2.55cde63d.chunk.css.map",
-    "static/css/main.c3a086f0.chunk.css.map": "/link-management-react/static/css/main.c3a086f0.chunk.css.map",
-    "static/js/2.ad69bb81.chunk.js.LICENSE.txt": "/link-management-react/static/js/2.ad69bb81.chunk.js.LICENSE.txt"
+    "main.css": "/%7Blink-management-react%7D/static/css/main.b8041d74.chunk.css",
+    "main.js": "/%7Blink-management-react%7D/static/js/main.8de99d92.chunk.js",
+    "main.js.map": "/%7Blink-management-react%7D/static/js/main.8de99d92.chunk.js.map",
+    "runtime-main.js": "/%7Blink-management-react%7D/static/js/runtime-main.1b14e222.js",
+    "runtime-main.js.map": "/%7Blink-management-react%7D/static/js/runtime-main.1b14e222.js.map",
+    "static/css/2.55cde63d.chunk.css": "/%7Blink-management-react%7D/static/css/2.55cde63d.chunk.css",
+    "static/js/2.4f4152da.chunk.js": "/%7Blink-management-react%7D/static/js/2.4f4152da.chunk.js",
+    "static/js/2.4f4152da.chunk.js.map": "/%7Blink-management-react%7D/static/js/2.4f4152da.chunk.js.map",
+    "static/js/3.b4d9d0d9.chunk.js": "/%7Blink-management-react%7D/static/js/3.b4d9d0d9.chunk.js",
+    "static/js/3.b4d9d0d9.chunk.js.map": "/%7Blink-management-react%7D/static/js/3.b4d9d0d9.chunk.js.map",
+    "index.html": "/%7Blink-management-react%7D/index.html",
+    "service-worker.js": "/%7Blink-management-react%7D/service-worker.js",
+    "service-worker.js.map": "/%7Blink-management-react%7D/service-worker.js.map",
+    "static/css/2.55cde63d.chunk.css.map": "/%7Blink-management-react%7D/static/css/2.55cde63d.chunk.css.map",
+    "static/css/main.b8041d74.chunk.css.map": "/%7Blink-management-react%7D/static/css/main.b8041d74.chunk.css.map",
+    "static/js/2.4f4152da.chunk.js.LICENSE.txt": "/%7Blink-management-react%7D/static/js/2.4f4152da.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.de45c2f0.js",
+    "static/js/runtime-main.1b14e222.js",
     "static/css/2.55cde63d.chunk.css",
-    "static/js/2.ad69bb81.chunk.js",
-    "static/css/main.c3a086f0.chunk.css",
-    "static/js/main.e047736e.chunk.js"
+    "static/js/2.4f4152da.chunk.js",
+    "static/css/main.b8041d74.chunk.css",
+    "static/js/main.8de99d92.chunk.js"
   ]
 }
