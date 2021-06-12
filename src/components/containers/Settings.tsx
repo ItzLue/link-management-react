@@ -1,8 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import {HiAdjustments, HiCog} from "react-icons/hi";
-import {FaHistory} from "react-icons/fa";
+import { HiAdjustments } from 'react-icons/hi';
 
 const Settings: React.FC = () => {
 	const {
@@ -24,7 +23,6 @@ const Settings: React.FC = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className='my-8 mx-4 pb-8 space-y-4 text-center'>
-
 			<div className='w-full px-4'>
 				<h1 className='text-center text-2xl'>
 					<HiAdjustments className='mr-2 inline' />
@@ -34,7 +32,7 @@ const Settings: React.FC = () => {
 
 			<input type='text' placeholder='Shared timestamp' className={inputClassName} {...register('Shared timestamp', {})} />
 
-			<div className= 'font-bold text-left'>
+			<div className='font-bold text-left'>
 				<p> Encryption</p>
 			</div>
 
@@ -42,7 +40,7 @@ const Settings: React.FC = () => {
 			<input type='text' placeholder='Encryption type' className={inputClassName} {...register('Encryption type', {})} />
 			<input type='number' placeholder='Encryption encrypted' className={inputClassName} {...register('Encryption encrypted', {})} />
 
-			<div className= 'font-bold text-left'>
+			<div className='font-bold text-left'>
 				<p> Framing </p>
 			</div>
 
@@ -52,7 +50,7 @@ const Settings: React.FC = () => {
 			<input type='number' placeholder='Framing error det rate' className={inputClassName} {...register('Framing error det rate', {})} />
 			<input type='number' placeholder='Framing error corr rate' className={inputClassName} {...register('Framing error corr rate', {})} />
 
-			<div className= 'font-bold text-left'>
+			<div className='font-bold text-left'>
 				<p> Video</p>
 			</div>
 
@@ -63,7 +61,7 @@ const Settings: React.FC = () => {
 			<input type='number' placeholder='Video bit rate' className={inputClassName} {...register('Video bit rate', {})} />
 			<input type='number' placeholder='Video ping' className={inputClassName} {...register('Video ping', {})} />
 
-			<div className= 'font-bold text-left'>
+			<div className='font-bold text-left'>
 				<p> Link</p>
 			</div>
 

@@ -12,7 +12,7 @@ import Framing from './components/containers/Framing';
 import Settings from './components/containers/Settings';
 import { backend } from './api';
 import ErrorMessage from './components/containers/ErrorMessage';
-import { set, get } from 'idb-keyval';
+import { set } from 'idb-keyval';
 
 const menuItems: IMenuItem[] = [
 	{
@@ -42,7 +42,6 @@ const App: React.FC = () => {
 	const [framingData, setFramingData] = useState<IFramingData[]>([]);
 	const [encryptionData, setEncryptionData] = useState<IEncryptionData[]>([]);
 	const [errorStatusCode, setErrorStatusCode] = useState<number>(-1);
-	const [isLoading, setIsLoading] = useState(true);
 
 	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
 		const response = await backend.get<T>(endpoint);

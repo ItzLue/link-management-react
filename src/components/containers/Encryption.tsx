@@ -1,6 +1,6 @@
 import React from 'react';
 import { IEncryptionData } from '../../types/api/data';
-import {HiLockClosed} from "react-icons/all";
+import { HiLockClosed } from 'react-icons/all';
 
 type IProps = { data?: IEncryptionData[] };
 
@@ -15,7 +15,7 @@ const Encryption: React.FC<IProps> = ({ data }) => {
 				<p>Type {data?.[data?.length - 1].type}</p>
 			</div>
 			<div>
-				<HiLockClosed/>
+				<HiLockClosed />
 			</div>
 		</div>
 	);
