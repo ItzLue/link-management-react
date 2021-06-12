@@ -85,5 +85,4 @@ const isPushNotificationSupported = () => {
 self.addEventListener('activate', (event) => {
 	console.log(event);
 	console.log('notifications', isPushNotificationSupported());
-	Notification.requestPermission().then(() => new Notification('Hey there 👋 Thanks for visiting our PWA - Link management team'));
 });
