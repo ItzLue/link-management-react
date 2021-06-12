@@ -81,12 +81,9 @@ self.addEventListener('message', (event) => {
 const isPushNotificationSupported = () => {
 	return 'serviceWorker' in navigator && 'PushManager' in window;
 };
-const askUserPermission = async () => {
-	return await Notification.requestPermission();
-};
 
 self.addEventListener('activate', (event) => {
 	console.log(event);
 	console.log('notifications', isPushNotificationSupported());
-	askUserPermission().then(() => new Notification('Hey there 👋 Thanks for visiting our PWA - Link management team'));
+	Notification.requestPermission().then(() => new Notification('Hey there 👋 Thanks for visiting our PWA - Link management team'));
 });
