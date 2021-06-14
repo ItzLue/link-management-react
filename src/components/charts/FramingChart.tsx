@@ -24,7 +24,7 @@ const FramingChart: React.FC<IProps> = ({ framingData }) => {
 		datasets: [
 			{
 				label: 'Corrected errors',
-				data: framingData.map((d) => d.errorsCorrected),
+				data: framingData.map((d) => d.errors_corrected),
 				backgroundColor: 'rgb(26,214,220)'
 			}
 		]

@@ -22,7 +22,7 @@ const VideoChart: React.FC<IProps> = ({ videoData }) => {
 		datasets: [
 			{
 				label: 'Bitrate',
-				data: videoData.map((d) => d.bitrate),
+				data: videoData.map((d) => d.packets_recevied),
 				fill: false,
 				backgroundColor: 'rgb(255, 99, 132)',
 				borderColor: 'rgba(255, 99, 132, 0.2)'
@@ -35,7 +35,7 @@ const VideoChart: React.FC<IProps> = ({ videoData }) => {
 		datasets: [
 			{
 				label: 'Ping',
-				data: videoData.map((d) => d.ping),
+				data: videoData.map((d) => d.delay),
 				fill: false,
 				backgroundColor: 'rgb(54,232,196)',
 				borderColor: 'rgba(76,250,193,0.2)'

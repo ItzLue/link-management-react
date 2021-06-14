@@ -61,10 +61,10 @@ export default CardList;
 const generateVideoCardData = (data: IVideoData | undefined) => {
 	return (
 		<div>
-			<p>Ping: {data?.ping}</p>
-			<p>Bitrate: {data?.bitrate}</p>
+			<p>Ping: {data?.delay}</p>
+			<p>Bitrate: {data?.packets_recevied}</p>
 			<p>Proctol: {data?.protocol}</p>
-			<p>Protocol Version: {data?.protocolVersion}</p>
+			<p>Protocol Version: {data?.protocol_Version}</p>
 		</div>
 	);
 };
@@ -72,8 +72,8 @@ const generateVideoCardData = (data: IVideoData | undefined) => {
 const generateFramingCardData = (data: IFramingData | undefined) => {
 	return (
 		<div>
-			<p>Errors detected {data?.errorsDetected}</p>
-			<p>Errors corrected {data?.errorsCorrected}</p>
+			<p>Errors detected {data?.errors_detected}</p>
+			<p>Errors corrected {data?.errors_corrected}</p>
 		</div>
 	);
 };
