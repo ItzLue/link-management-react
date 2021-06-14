@@ -20,6 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npx eslint --max-warnings 0 src tests
+      - run: npm run fix
+      - run: npx eslint --max-warnings 0 src
       - run: tsc
       - run: npm run build
