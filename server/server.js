@@ -40,6 +40,11 @@ app.get('/encryption', (req, res) => {
 	res.send(encryptionData);
 });
 
+app.get('/test', (req, res) => {
+	console.log(req.query);
+	return res.sendStatus(200);
+});
+
 app.post('/settings', async (req, res) => {
 	if (!req.body) return res.sendStatus(400);
 	console.log(req.body);

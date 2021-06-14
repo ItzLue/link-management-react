@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { HiAdjustments, HiHome } from 'react-icons/hi';
 import { IMenuItem } from './types/MenuItems';
-import { IEncryptionData, IFramingData, IVideoData } from './types/api/data';
+import { IEncryptionData, IFramingData, IReadAllData, IVideoData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CardList from './components/containers/CardList';
 import Navigation from './components/navigation/Navigation';
@@ -13,6 +13,7 @@ import Settings from './components/containers/Settings';
 import { backend } from './api';
 import ErrorMessage from './components/containers/ErrorMessage';
 import { set } from 'idb-keyval';
+import axios from 'axios';
 
 const menuItems: IMenuItem[] = [
 	{
@@ -41,6 +42,7 @@ const App: React.FC = () => {
 	const [videoData, setVideoData] = useState<IVideoData[]>([]);
 	const [framingData, setFramingData] = useState<IFramingData[]>([]);
 	const [encryptionData, setEncryptionData] = useState<IEncryptionData[]>([]);
+	const [allData, setAllData] = useState<IReadAllData[]>();
 	const [errorStatusCode, setErrorStatusCode] = useState<number>(-1);
 
 	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
@@ -53,10 +55,19 @@ const App: React.FC = () => {
 	}
 
 	useEffect(() => {
+		backend.get('http://localhost:4000/test').then((r) => console.log(r));
 		pollData(videoData, setVideoData, 'video').catch((error) => (error.status ? setErrorStatusCode(error.status) : setErrorStatusCode(600)));
 		pollData(framingData, setFramingData, 'framing').catch(() => console.log('Could not connect to server'));
 		pollData(encryptionData, setEncryptionData, 'encryption').catch(() => console.log('Could not connect to server'));
 	}, []);
+
+	const onSubmit = (data: unknown) => {
+		console.log(data);
+		axios
+			.post('http://localhost:4000/settings', data)
+			.then(() => console.log('Form data posted'))
+			.catch(() => console.log('Failed to post'));
+	};
 
 	return (
 		<Router>
@@ -70,10 +81,52 @@ const App: React.FC = () => {
 				</Route>
 				iconClassName
 				<Route path='/history'>
-					<History videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
+					<History
+						data={[
+							{
+								link: [
+									{
+										framing_errors_detected: 0,
+										framing_errors_corrected: 0,
+										video_delay: 0,
+										video_packets_received: 0
+									}
+								],
+								video: [{ protocol_Version: 'ee', packets_recevied: 1, protocol: 'ew', delay: 0 }],
+								framing: [{ errors_detected: 1, errors_corrected: 1 }],
+								encryption: [{ isEnabled: true, type: 'ew' }]
+							},
+							{
+								link: [
+									{
+										framing_errors_detected: 0,
+										framing_errors_corrected: 0,
+										video_delay: 0,
+										video_packets_received: 0
+									}
+								],
+								video: [{ protocol_Version: 'ee', packets_recevied: 1, protocol: 'ew', delay: 0 }],
+								framing: [{ errors_detected: 1, errors_corrected: 1 }],
+								encryption: [{ isEnabled: true, type: 'ew' }]
+							},
+							{
+								link: [
+									{
+										framing_errors_detected: 0,
+										framing_errors_corrected: 0,
+										video_delay: 0,
+										video_packets_received: 0
+									}
+								],
+								video: [{ protocol_Version: 'ee', packets_recevied: 1, protocol: 'ew', delay: 0 }],
+								framing: [{ errors_detected: 1, errors_corrected: 1 }],
+								encryption: [{ isEnabled: true, type: 'ew' }]
+							}
+						]}
+					/>
 				</Route>
 				<Route path='/settings'>
-					<Settings />
+					<Settings onSubmit={onSubmit} />
 				</Route>
 				<Route path='/'>
 					<CardList videoData={videoData[videoData.length - 1]} framingData={framingData[framingData.length - 1]} encryptionData={encryptionData[encryptionData.length - 1]} />

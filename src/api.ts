@@ -6,5 +6,6 @@ const API_URLS = {
 
 export const backend = axios.create({
 	baseURL: `${API_URLS.localhost}/`,
+	params: { API_KEY: '1234' },
 	timeout: 2000
 });

@@ -3,19 +3,16 @@ import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { HiAdjustments } from 'react-icons/hi';
 
-const Settings: React.FC = () => {
+type IProps = {
+	onSubmit: (data: unknown) => void;
+};
+
+const Settings: React.FC<IProps> = ({ onSubmit }) => {
 	const {
 		register,
 		handleSubmit,
 		formState: { errors }
 	} = useForm();
-	const onSubmit = (data: unknown) => {
-		console.log(data);
-		axios
-			.post('http://localhost:4000/settings', data)
-			.then(() => console.log('Form data posted'))
-			.catch(() => console.log('Failed to post'));
-	};
 	console.log(errors);
 
 	const inputClassName =
@@ -30,46 +27,38 @@ const Settings: React.FC = () => {
 				</h1>
 			</div>
 
-			<input type='text' placeholder='Shared timestamp' className={inputClassName} {...register('Shared timestamp', {})} />
+			<input type='text' placeholder='Shared timestamp' className={inputClassName} {...register('shared_timestamp', {})} />
 
-			<div className='font-bold text-left'>
-				<p> Encryption</p>
-			</div>
+			<h1>Encryption</h1>
 
-			<input type='number' placeholder='Encryption process time' className={inputClassName} {...register('Encryption process time', {})} />
-			<input type='text' placeholder='Encryption type' className={inputClassName} {...register('Encryption type', {})} />
-			<input type='number' placeholder='Encryption encrypted' className={inputClassName} {...register('Encryption encrypted', {})} />
+			<input type='number' placeholder='Encryption process time' className={inputClassName} {...register('encryption_process_time', {})} />
+			<input type='text' placeholder='Encryption type' className={inputClassName} {...register('encryption_type', {})} />
+			<input type='number' placeholder='Encryption encrypted' className={inputClassName} {...register('encryption_encrypted', {})} />
 
-			<div className='font-bold text-left'>
-				<p> Framing </p>
-			</div>
+			<h1>Framing</h1>
 
-			<input type='number' placeholder='Framing process time' className={inputClassName} {...register('Framing process time', {})} />
-			<input type='number' placeholder='Framing errors detected' className={inputClassName} {...register('Framing errors detected', {})} />
-			<input type='number' placeholder='Framing errors corrected' className={inputClassName} {...register('Framing errors corrected', {})} />
-			<input type='number' placeholder='Framing error det rate' className={inputClassName} {...register('Framing error det rate', {})} />
-			<input type='number' placeholder='Framing error corr rate' className={inputClassName} {...register('Framing error corr rate', {})} />
+			<input type='number' placeholder='Framing process time' className={inputClassName} {...register('framing_process_time', {})} />
+			<input type='number' placeholder='Framing errors detected' className={inputClassName} {...register('framing_errors_detected', {})} />
+			<input type='number' placeholder='Framing errors corrected' className={inputClassName} {...register('framing_errors_corrected', {})} />
+			<input type='number' placeholder='Framing error det rate' className={inputClassName} {...register('framing_error_det_rate', {})} />
+			<input type='number' placeholder='Framing error corr rate' className={inputClassName} {...register('framing_error_corr_rate', {})} />
 
-			<div className='font-bold text-left'>
-				<p> Video</p>
-			</div>
+			<h1>Video</h1>
 
-			<input type='number' placeholder='Video max package size' className={inputClassName} {...register('Video max package size', {})} />
-			<input type='number' placeholder='Video min package size' className={inputClassName} {...register('Video min package size', {})} />
-			<input type='text' placeholder='Video protocol version' className={inputClassName} {...register('Video protocol version', {})} />
-			<input type='text' placeholder='Video protocol' className={inputClassName} {...register('Video protocol', {})} />
-			<input type='number' placeholder='Video bit rate' className={inputClassName} {...register('Video bit rate', {})} />
-			<input type='number' placeholder='Video ping' className={inputClassName} {...register('Video ping', {})} />
+			<input type='number' placeholder='Video max package size' className={inputClassName} {...register('video_max_package_size', {})} />
+			<input type='number' placeholder='Video min package size' className={inputClassName} {...register('video_min_package_size', {})} />
+			<input type='text' placeholder='Video protocol version' className={inputClassName} {...register('video_protocol_version', {})} />
+			<input type='text' placeholder='Video protocol' className={inputClassName} {...register('video_protocol', {})} />
+			<input type='number' placeholder='Video bit rate' className={inputClassName} {...register('video_bit_rate', {})} />
+			<input type='number' placeholder='Video ping' className={inputClassName} {...register('video_ping', {})} />
 
-			<div className='font-bold text-left'>
-				<p> Link</p>
-			</div>
+			<h1>Link</h1>
 
-			<input type='number' placeholder='Link process time' className={inputClassName} {...register('Link process time', {})} />
-			<input type='number' placeholder='Link video packets received' className={inputClassName} {...register('Link video packets received', {})} />
-			<input type='number' placeholder='Link video delay' className={inputClassName} {...register('Link video delay', {})} />
-			<input type='number' placeholder='Link framing errors detected' className={inputClassName} {...register('Link framing errors detected', {})} />
-			<input type='number' placeholder='Link framing errors corrected' className={inputClassName} {...register('Link framing errors corrected', {})} />
+			<input type='number' placeholder='Link process time' className={inputClassName} {...register('link_process_time', {})} />
+			<input type='number' placeholder='Link video packets received' className={inputClassName} {...register('link_video_packets_received', {})} />
+			<input type='number' placeholder='Link video delay' className={inputClassName} {...register('link_video_delay', {})} />
+			<input type='number' placeholder='Link framing errors detected' className={inputClassName} {...register('link_framing_errors_detected', {})} />
+			<input type='number' placeholder='Link framing errors corrected' className={inputClassName} {...register('link_framing_errors_corrected', {})} />
 			<input className='px-4 py-2 bg-red-400 rounded-lg text-white' type='submit' />
 		</form>
 	);
