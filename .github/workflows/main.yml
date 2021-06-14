@@ -1,10 +1,9 @@
-name: Merge Analysis & Tests
+name: Merge Analysis
 
 on:
   pull_request:
     branches:
       - master
-      -
 jobs:
   run-analysis:
     runs-on: ubuntu-latest
