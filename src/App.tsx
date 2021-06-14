@@ -56,7 +56,6 @@ const App: React.FC = () => {
 
 	useEffect(() => {
 		backend.get('http://localhost:4000/test').then((r) => console.log(r));
-
 		pollData(videoData, setVideoData, 'video').catch((error) => (error.status ? setErrorStatusCode(error.status) : setErrorStatusCode(600)));
 		pollData(framingData, setFramingData, 'framing').catch(() => console.log('Could not connect to server'));
 		pollData(encryptionData, setEncryptionData, 'encryption').catch(() => console.log('Could not connect to server'));
