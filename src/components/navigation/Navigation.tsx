@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IMenuItem } from '../../types/MenuItems';
 import { Link } from 'react-router-dom';
 
 type IProps = { menuItems: IMenuItem[] };
 
 const Navigation: React.FC<IProps> = ({ menuItems }) => {
+	const [selected, setSelected] = useState();
 	return (
 		<nav className='w-full fixed bottom-0 h-12 shadow-md border border-gray-100 z-10 bg-white'>
 			<div className='justify-between place-content-center flex flex-row h-full items-center px-12'>

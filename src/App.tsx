@@ -13,7 +13,7 @@ import Settings from './components/containers/Settings';
 import { backend } from './api';
 import ErrorMessage from './components/containers/ErrorMessage';
 import { set } from 'idb-keyval';
-import axios from 'axios';
+import SimulationControl from './components/containers/SimulationControl';
 
 const menuItems: IMenuItem[] = [
 	{
@@ -44,6 +44,7 @@ const App: React.FC = () => {
 	const [encryptionData, setEncryptionData] = useState<IEncryptionData[]>([]);
 	const [allData, setAllData] = useState<IReadAllData[]>();
 	const [errorStatusCode, setErrorStatusCode] = useState<number>(-1);
+	const [isSimulationRunning, setIsSimulationRunning] = useState(false);
 
 	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
 		const response = await backend.get<T>(endpoint);
@@ -55,18 +56,26 @@ const App: React.FC = () => {
 	}
 
 	useEffect(() => {
-		backend.get('http://localhost:4000/test').then((r) => console.log(r));
-		pollData(videoData, setVideoData, 'video').catch((error) => (error.status ? setErrorStatusCode(error.status) : setErrorStatusCode(600)));
-		pollData(framingData, setFramingData, 'framing').catch(() => console.log('Could not connect to server'));
-		pollData(encryptionData, setEncryptionData, 'encryption').catch(() => console.log('Could not connect to server'));
+		// Get all
+		backend.get('current').then((r) => {
+			const array: any[] = [];
+			Object.keys(r.data).forEach((key) => console.log(key));
+		});
 	}, []);
 
 	const onSubmit = (data: unknown) => {
 		backend
-			.post('http://localhost:4000/settings', data)
+			.post('change', data)
 			.then(() => console.log('Form data posted'))
 			.catch(() => console.log('Failed to post'));
 	};
+
+	const onStartSimulation = () =>
+		backend
+			.get('current', { params: { start: true } })
+			.then(() => setIsSimulationRunning(true))
+			.catch(() => setIsSimulationRunning(false));
+	const onStopSimulation = () => backend.get('current', { params: { stop: true } }).then(() => setIsSimulationRunning(false));
 
 	return (
 		<Router>
@@ -79,56 +88,13 @@ const App: React.FC = () => {
 					<Framing data={framingData} />
 				</Route>
 				iconClassName
-				<Route path='/history'>
-					<History
-						data={[
-							{
-								link: [
-									{
-										framing_errors_detected: 0,
-										framing_errors_corrected: 0,
-										video_delay: 0,
-										video_packets_received: 0
-									}
-								],
-								video: [{ protocol_Version: 'ee', packets_recevied: 1, protocol: 'ew', delay: 0 }],
-								framing: [{ errors_detected: 1, errors_corrected: 1 }],
-								encryption: [{ isEnabled: true, type: 'ew' }]
-							},
-							{
-								link: [
-									{
-										framing_errors_detected: 0,
-										framing_errors_corrected: 0,
-										video_delay: 0,
-										video_packets_received: 0
-									}
-								],
-								video: [{ protocol_Version: 'ee', packets_recevied: 1, protocol: 'ew', delay: 0 }],
-								framing: [{ errors_detected: 1, errors_corrected: 1 }],
-								encryption: [{ isEnabled: true, type: 'ew' }]
-							},
-							{
-								link: [
-									{
-										framing_errors_detected: 0,
-										framing_errors_corrected: 0,
-										video_delay: 0,
-										video_packets_received: 0
-									}
-								],
-								video: [{ protocol_Version: 'ee', packets_recevied: 1, protocol: 'ew', delay: 0 }],
-								framing: [{ errors_detected: 1, errors_corrected: 1 }],
-								encryption: [{ isEnabled: true, type: 'ew' }]
-							}
-						]}
-					/>
-				</Route>
+				<Route path='/history'></Route>
 				<Route path='/settings'>
 					<Settings onSubmit={onSubmit} />
 				</Route>
 				<Route path='/'>
 					<CardList videoData={videoData[videoData.length - 1]} framingData={framingData[framingData.length - 1]} encryptionData={encryptionData[encryptionData.length - 1]} />
+					<SimulationControl isRunning={isSimulationRunning} onStartCallback={onStartSimulation} onStopCallback={onStopSimulation} />
 				</Route>
 			</Switch>
 			<Navigation menuItems={menuItems} />
