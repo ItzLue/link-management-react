@@ -159,7 +159,7 @@ const App: React.FC = () => {
 					<History data={allData ?? []} />
 				</Route>
 				<Route path='/settings'>
-					<Settings onSubmit={onSubmit} />
+					<Settings defaultValues={currentTransmission[currentTransmission.length - 1]} onSubmit={onSubmit} />
 				</Route>
 				<Route path='/'>
 					<CardList videoData={videoData} framingData={framingData} encryptionData={encryptionData} />

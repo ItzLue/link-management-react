@@ -1,16 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { HiAdjustments } from 'react-icons/hi';
 import { ISettingsForm } from '../../types/settings-form';
+import { IEncryptionData, ITransmissionData } from '../../types/api/data';
 
-type IProps = { onSubmit: (data: ISettingsForm) => void };
+type IProps = {
+	defaultValues: ITransmissionData;
+	onSubmit: (data: ISettingsForm) => void;
+};
 
-const Settings: React.FC<IProps> = ({ onSubmit }) => {
+const Settings: React.FC<IProps> = ({ defaultValues, onSubmit }) => {
 	const {
 		register,
 		handleSubmit,
+		setValue,
 		formState: { errors }
 	} = useForm();
+
+	const setDefaultValuesEncryption = (data: IEncryptionData) => {
+		setValue('encryption_process_time', data.process_time);
+		setValue('encryption_type', data.type);
+		setValue('encryption_encrypted', data.encrypted);
+	};
+
+	useEffect(() => {
+		setDefaultValuesEncryption(defaultValues.encryption);
+	}, []);
 
 	const inputClassName =
 		'w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm';
@@ -27,6 +42,7 @@ const Settings: React.FC<IProps> = ({ onSubmit }) => {
 			<input type='number' placeholder='Encryption process time' className={inputClassName} {...register('encryption_process_time', { required: true })} />
 			<input type='text' placeholder='Encryption type' className={inputClassName} {...register('encryption_type', { required: true })} />
 			<input type='number' placeholder='Encryption encrypted' className={inputClassName} {...register('encryption_encrypted', { required: true })} />
+			<input type='checkbox' placeholder='Encrypted' {...register('encryption_encrypted', { required: true })} />
 
 			<h1>Framing</h1>
 			<input type='number' placeholder='Framing process time' className={inputClassName} {...register('framing_process_time', { required: true })} />
