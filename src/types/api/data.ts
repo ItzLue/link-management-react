@@ -3,9 +3,8 @@ export type IVideoData = {
 	max_package_size: number;
 	min_package_size: number;
 	ping: number;
-	packets_recevied: number;
 	protocol: string;
-	protocol_Version: string;
+	protocol_version: string;
 };
 
 export type IEncryptionData = {
@@ -25,6 +24,7 @@ export type IFramingData = {
 export type ILinkData = {
 	video_packets_received: number;
 	video_delay: number;
+	video_bitrate: number;
 	process_time: number;
 	framing_errors_corrected: number;
 	framing_errors_detected: number;
@@ -37,3 +37,15 @@ export type IReadAllData = {
 	framing: IFramingData[];
 	encryption: IEncryptionData[];
 };
+
+export type ITransmissionData = {
+	encryption: IEncryptionData;
+	framing: IFramingData;
+	link: ILinkData;
+	video: IVideoData;
+};
+
+export type IParsedTransmission = { transmissionTimestamp: string } & ITransmissionData;
+export type IAllParsedResponse = { simulationTimestamp: string; transmissions: IParsedTransmission[] };
+export type IAllRawResponse = Record<string, IRawResponse>;
+export type IRawResponse = Record<string, ITransmissionData>;

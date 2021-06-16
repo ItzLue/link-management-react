@@ -1,30 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { IFramingData } from '../../types/api/data';
+import { IFramingData, IParsedTransmission } from '../../types/api/data';
 import dayjs from 'dayjs';
 
-type IProps = { framingData: IFramingData[] };
+type IProps = { transmissionData: IParsedTransmission[] };
 
-const FramingChart: React.FC<IProps> = ({ framingData }) => {
-	const [labels, setLabels] = useState<string[]>([]);
-
-	const makeDateData = () => {
-		setInterval(() => {
-			const date = dayjs(Date.now()).format('HH:mm:ss').toString();
-			setLabels([...labels, date]);
-		}, 10000);
-	};
-
-	useEffect(() => {
-		makeDateData();
-	}, [labels, setLabels]);
-
+const FramingChart: React.FC<IProps> = ({ transmissionData }) => {
 	const data = {
-		labels,
+		labels: transmissionData.map((d) => d.transmissionTimestamp),
 		datasets: [
 			{
 				label: 'Corrected errors',
-				data: framingData.map((d) => d.errors_corrected),
+				data: transmissionData.map((d) => d.framing.errors_corrected),
 				backgroundColor: 'rgb(26,214,220)'
 			}
 		]

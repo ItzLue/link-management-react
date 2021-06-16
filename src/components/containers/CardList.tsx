@@ -62,9 +62,9 @@ const generateVideoCardData = (data: IVideoData | undefined) => {
 	return (
 		<div className='px-4'>
 			<p>Ping: {data?.ping}</p>
-			<p>Bitrate: {data?.packets_recevied}</p>
+			<p>Bitrate: {data?.bitrate}</p>
 			<p>Proctol: {data?.protocol}</p>
-			<p>Protocol Version: {data?.protocol_Version}</p>
+			<p>Protocol Version: {data?.protocol_version}</p>
 		</div>
 	);
 };

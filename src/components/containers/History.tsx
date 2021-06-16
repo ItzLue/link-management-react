@@ -1,11 +1,11 @@
 import React from 'react';
 import { Disclosure } from '@headlessui/react';
-import { IEncryptionData, IFramingData, IReadAllData, IVideoData } from '../../types/api/data';
+import { IAllParsedResponse, IEncryptionData, IFramingData, IParsedTransmission, IVideoData } from '../../types/api/data';
 import { HiArrowNarrowDown } from 'react-icons/all';
 import { FaHistory } from 'react-icons/fa';
-import { map } from 'lodash-es';
+import VideoChart from '../charts/VideoChart';
 
-type IProps = { data: IReadAllData[] };
+type IProps = { data: IAllParsedResponse[] };
 
 const History: React.FC<IProps> = ({ data }) => {
 	return (
@@ -21,24 +21,24 @@ const History: React.FC<IProps> = ({ data }) => {
 
 export default History;
 
-const generatePanels = (data: IReadAllData[]) =>
-	data.map((dddm, key) => (
+const generatePanels = (data: IAllParsedResponse[]) =>
+	data.reverse().map((d, key) => (
 		<Disclosure as='div' className='mt-4' key={key}>
 			{({ open }) => (
 				<>
 					<Disclosure.Button className='flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-purple-900 bg-purple-100 rounded-lg hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'>
-						<span>23-05-21 10:00</span>
+						<span>{d.simulationTimestamp}</span>
 						<HiArrowNarrowDown className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-purple-500`} />
 					</Disclosure.Button>
-					{generateVideoPanel(data[key].video)}
-					{generateFramingPanel(data[key].framing)}
-					{generateEncryptionData(data[key].encryption)}
+					{generateVideoPanel(d.transmissions)}
+					{generateFramingPanel(d.transmissions.map((t) => t.framing))}
+					{generateEncryptionData(d.transmissions.map((t) => t.encryption))}
 				</>
 			)}
 		</Disclosure>
 	));
 
-const generateVideoPanel = (videoData: IVideoData[]) => (
+const generateVideoPanel = (videoData: IParsedTransmission[]) => (
 	<Disclosure.Panel>
 		<Disclosure as='div' className='mt-2'>
 			{({ open }) => (
@@ -47,7 +47,9 @@ const generateVideoPanel = (videoData: IVideoData[]) => (
 						<span>Video</span>
 						<HiArrowNarrowDown className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-purple-500`} />
 					</Disclosure.Button>
-					<Disclosure.Panel className='px-4 pt-4 pb-2 text-sm text-gray-500'>Ping</Disclosure.Panel>
+					<Disclosure.Panel className='px-4 pt-4 pb-2 text-sm text-gray-500'>
+						<VideoChart transmissionData={videoData} />
+					</Disclosure.Panel>
 				</>
 			)}
 		</Disclosure>

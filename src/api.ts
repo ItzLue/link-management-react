@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const API_URLS = {
-	localhost: 'http://192.168.1.141:4000',
+	localhost: 'http://127.0.0.1:8000',
+	loui: 'http://192.168.1.141:4000',
 	frederik: 'http://10.16.171.157:8000',
 	sophus: 'http://10.16.171.17:8000'
 };
