@@ -48,7 +48,7 @@ type ICardListProps = {
 const CardList: React.FC<ICardListProps> = ({ videoData, framingData, encryptionData }) => {
 	return (
 		<>
-			<div className='grid grid-rows-1 gap-8 md:grid-flow-col md:px-8 md:gap-4 mt-8 mb-16'>
+			<div className='grid grid-rows-1 gap-8 md:grid-flow-col md:px-8 md:gap-4 my-16'>
 				{cardData.map((card, key) => (
 					<Card title={card.title} path={card.path} key={key} videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
 				))}
@@ -83,7 +83,7 @@ const generateEncryptionCardData = (data: IEncryptionData | undefined) => {
 	return (
 		<div className='items-center text-center w-full h-full'>
 			{data?.encrypted ? <HiLockClosed className={`${iconClassName} text-green-400`} /> : <HiLockOpen className={`${iconClassName} text-red-400`} />}
-			<p>{`Type: ${data?.type}`}</p>
+			<p>{`Type: ${data?.type ? data.type : ''}`}</p>
 		</div>
 	);
 };

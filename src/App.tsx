@@ -1,44 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { HiAdjustments, HiHome } from 'react-icons/hi';
-import { IMenuItem } from './types/MenuItems';
 import { IAllParsedResponse, IEncryptionData, IFramingData, IParsedTransmission, ITransmissionData, IVideoData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CardList from './components/containers/CardList';
 import Navigation from './components/navigation/Navigation';
 import Video from './components/containers/Video';
 import History from './components/containers/History';
-import { FaHistory } from 'react-icons/fa';
 import Framing from './components/containers/Framing';
 import Settings from './components/containers/Settings';
 import { backend } from './api';
-import ErrorMessage from './components/containers/ErrorMessage';
 import { set } from 'idb-keyval';
 import SimulationControl from './components/containers/SimulationControl';
 import { parseAllRawResponse } from './parser';
 import dayjs from 'dayjs';
 import { ISettingsForm } from './types/settings-form';
-import { has } from 'lodash-es';
+import { Snackbar } from '@material-ui/core';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
-const menuItems: IMenuItem[] = [
-	{
-		id: 0,
-		title: 'History',
-		link: '/history',
-		icon: <FaHistory />
-	},
-	{
-		id: 1,
-		title: 'Home',
-		link: '/',
-		icon: <HiHome />
-	},
-	{
-		id: 2,
-		title: 'Settings',
-		link: '/settings',
-		icon: <HiAdjustments />
-	}
-];
+const Alert = (props: AlertProps) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
 const App: React.FC = () => {
 	const INTERVAL = 10000; // in milliseconds
@@ -49,7 +27,9 @@ const App: React.FC = () => {
 	const [allData, setAllData] = useState<IAllParsedResponse[]>();
 	const [currentTransmission, setCurrentTransmission] = useState<IParsedTransmission[]>([]);
 	const [errorStatusCode, setErrorStatusCode] = useState<number>(-1);
-	const [isSimulationRunning, setIsSimulationRunning] = useState(false);
+	const [showSim, setShowSim] = useState(false);
+	const [isSimRunning, setIsSimRunning] = useState(false);
+	const [isRealTransmission, setIsRealTransmission] = useState(false);
 
 	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
 		const response = await backend.get<T>(endpoint);
@@ -61,22 +41,26 @@ const App: React.FC = () => {
 	}
 
 	const fetchCurrentTransmission = () => {
-		backend.get<ITransmissionData>('current').then((r) => {
-			setVideoData(r.data.video);
-			setFramingData(r.data.framing);
-			setEncryptionData(r.data.encryption);
-			if (currentTransmission?.length === MAX_LENGTH) currentTransmission.shift();
-			setCurrentTransmission([
-				...currentTransmission,
-				{
-					transmissionTimestamp: dayjs(Date.now()).format('HH:mm'),
-					link: r.data.link,
-					encryption: r.data.encryption,
-					framing: r.data.framing,
-					video: r.data.video
-				}
-			]);
-		});
+		backend
+			.get<ITransmissionData>('current')
+			.then((r) => {
+				setVideoData(r.data.video);
+				setFramingData(r.data.framing);
+				setEncryptionData(r.data.encryption);
+				setErrorStatusCode(r.status);
+				if (currentTransmission?.length === MAX_LENGTH) currentTransmission.shift();
+				setCurrentTransmission([
+					...currentTransmission,
+					{
+						transmissionTimestamp: dayjs(Date.now()).format('HH:mm'),
+						link: r.data.link,
+						encryption: r.data.encryption,
+						framing: r.data.framing,
+						video: r.data.video
+					}
+				]);
+			})
+			.catch(() => setErrorStatusCode(404));
 		setTimeout(() => fetchCurrentTransmission(), INTERVAL);
 	};
 
@@ -109,36 +93,39 @@ const App: React.FC = () => {
 			framing: {
 				error_corr_rate: Number(data.framing_error_corr_rate),
 				error_det_rate: Number(data.framing_error_det_rate),
-				errors_detected: Number(data.framing_errors_detected),
-				errors_corrected: Number(data.framing_errors_corrected),
-				process_time: Number(data.framing_process_time)
+				process_time: Number(data.framing_process_time),
+				errors_detected: 1,
+				errors_corrected: 1
 			},
 			link: {
-				video_packets_received: Number(data.link_video_packets_received),
 				video_delay: Number(data.link_video_delay),
 				video_bitrate: Number(data.video_bit_rate),
 				process_time: Number(data.link_process_time),
-				framing_errors_corrected: Number(data.link_framing_errors_corrected),
-				framing_errors_detected: Number(data.link_framing_errors_detected)
+				framing_errors_corrected: 1,
+				framing_errors_detected: 1,
+				video_packets_received: 1
 			}
 		};
-		backend
-			.post('change', object)
-			.then((r) => {
-				const hash = r.data;
-				confirmPackage(hash);
-			})
-			.catch(() => console.log('Failed to post'));
-		console.log(object);
+		if (!isSimRunning) {
+			backend
+				.post('change/before', object)
+				.then(() => setIsSimRunning(true))
+				.catch(() => console.log('Failed to post'));
+		} else {
+			backend
+				.post('change/after', object)
+				.then((r) => {
+					const hash = r.data;
+					confirmPackage(hash);
+					setIsSimRunning(true);
+				})
+				.catch(() => console.log('Failed to post'));
+		}
 	};
 
-	const onStartSimulation = () =>
-		backend
-			.get('current', { params: { start: true } })
-			.then(() => setIsSimulationRunning(true))
-			.catch(() => setIsSimulationRunning(false));
+	const onStartSimulation = () => backend.get('current', { params: { start: true } }).then(() => setIsSimRunning(true));
 
-	const onStopSimulation = () => backend.get('current', { params: { stop: true } }).then(() => setIsSimulationRunning(false));
+	const onStopSimulation = () => backend.get('current', { params: { stop: true } }).then(() => setIsSimRunning(false));
 
 	useEffect(() => {
 		fetchAllData().catch((r) => setErrorStatusCode(r.status));
@@ -147,7 +134,14 @@ const App: React.FC = () => {
 
 	return (
 		<Router>
-			{errorStatusCode >= 400 && <ErrorMessage />}
+			{errorStatusCode >= 400 && (
+				<Snackbar open={errorStatusCode >= 400} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+					<Alert severity='error'>No connection to the server!</Alert>
+				</Snackbar>
+			)}
+			<Snackbar open={isSimRunning} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert severity='info'>Simulation is running</Alert>
+			</Snackbar>
 			<Switch>
 				<Route path='/video'>
 					<Video data={currentTransmission} />
@@ -163,10 +157,10 @@ const App: React.FC = () => {
 				</Route>
 				<Route path='/'>
 					<CardList videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
-					<SimulationControl isRunning={isSimulationRunning} onStartCallback={onStartSimulation} onStopCallback={onStopSimulation} />
+					{showSim && <SimulationControl isRunning={isSimRunning} onStartCallback={onStartSimulation} onStopCallback={onStopSimulation} />}
 				</Route>
 			</Switch>
-			<Navigation menuItems={menuItems} />
+			<Navigation isSimStarted={showSim} isRealTransmission={isRealTransmission} onToggle={() => setShowSim(!showSim)} />
 		</Router>
 	);
 };

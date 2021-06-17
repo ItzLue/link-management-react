@@ -1,24 +1,29 @@
 import React, { useState } from 'react';
-import { IMenuItem } from '../../types/MenuItems';
 import { Link } from 'react-router-dom';
+import { BottomNavigation, BottomNavigationAction, Chip } from '@material-ui/core';
+import { HiAdjustments, HiHome } from 'react-icons/hi';
+import { FaHistory } from 'react-icons/fa';
+import Switch from '@material-ui/core/Switch';
 
-type IProps = { menuItems: IMenuItem[] };
+type IProps = { onToggle: () => void; isSimStarted: boolean; isRealTransmission: boolean };
+const Navigation: React.FC<IProps> = ({ onToggle, isSimStarted, isRealTransmission }) => {
+	const [value, setValue] = useState('recents');
+	const handleChange = (event: React.ChangeEvent<{}>, newValue: any) => setValue(newValue);
 
-const Navigation: React.FC<IProps> = ({ menuItems }) => {
-	const [selected, setSelected] = useState();
+	const toggle = () => (
+		<div className='inline-flex items-center mb-2'>
+			<label>Simulation</label>
+			<Switch checked={isSimStarted} onClick={onToggle} />
+		</div>
+	);
+
 	return (
-		<nav className='w-full fixed bottom-0 h-12 shadow-md border border-gray-100 z-10 bg-white'>
-			<div className='justify-between place-content-center flex flex-row h-full items-center px-12'>
-				{menuItems.map((item, key) => (
-					<Link to={item.link} key={key}>
-						<div className='flex flex-col items-center'>
-							<span>{item.icon}</span>
-							<p className='uppercase tracking-widest'>{item.title}</p>
-						</div>
-					</Link>
-				))}
-			</div>
-		</nav>
+		<BottomNavigation value={value} onChange={handleChange} className='w-full fixed bottom-0 border' style={{ height: '10vh' }}>
+			<BottomNavigationAction label='History' value='history' component={Link} to='/history' icon={<FaHistory />} />
+			<BottomNavigationAction label='Home' component={Link} to='/' value='home' icon={<HiHome />} />
+			<BottomNavigationAction label='Settings' value='settings' component={Link} to='/settings' disabled={!isSimStarted} icon={<HiAdjustments />} />
+			<BottomNavigationAction label='simulation' value='simulation' component={toggle} />
+		</BottomNavigation>
 	);
 };
 export default Navigation;

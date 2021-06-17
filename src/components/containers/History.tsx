@@ -9,7 +9,7 @@ type IProps = { data: IAllParsedResponse[] };
 
 const History: React.FC<IProps> = ({ data }) => {
 	return (
-		<div className='w-full px-4 pt-16'>
+		<div className='w-full px-4 py-16'>
 			<h1 className='text-center text-2xl'>
 				<FaHistory className='mr-2 inline' />
 				Previous transmissions
