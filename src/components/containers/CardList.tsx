@@ -29,13 +29,6 @@ const Card: React.FC<ICardProps> = ({ title, path, videoData, framingData, encry
 			{title === 'Video' && generateVideoCardData(videoData)}
 			{title === 'Framing' && generateFramingCardData(framingData)}
 			{title === 'Encryption' && generateEncryptionCardData(encryptionData)}
-			<div className='flex flex-col absolute bottom-0 w-full'>
-				<hr className='border-gray-100 w-full' />
-				<div className='px-4 inline-flex items-center text-gray-500'>
-					<HiRefresh className='h-4 w-4 mr-2' />
-					<p>Last updated: 5 min ago</p>
-				</div>
-			</div>
 		</div>
 	</Link>
 );

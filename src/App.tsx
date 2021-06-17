@@ -59,6 +59,8 @@ const App: React.FC = () => {
 						video: r.data.video
 					}
 				]);
+				setIsSimRunning(true);
+				setShowSim(true);
 			})
 			.catch(() => setErrorStatusCode(404));
 		setTimeout(() => fetchCurrentTransmission(), INTERVAL);
@@ -125,7 +127,10 @@ const App: React.FC = () => {
 
 	const onStartSimulation = () => backend.get('current', { params: { start: true } }).then(() => setIsSimRunning(true));
 
-	const onStopSimulation = () => backend.get('current', { params: { stop: true } }).then(() => setIsSimRunning(false));
+	const onStopSimulation = () =>
+		backend.get('current', { params: { stop: true } }).then(() => {
+			setIsSimRunning(false);
+		});
 
 	useEffect(() => {
 		fetchAllData().catch((r) => setErrorStatusCode(r.status));

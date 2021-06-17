@@ -10,7 +10,12 @@ type IProps = {
 };
 
 const Settings: React.FC<IProps> = ({ defaultValues = undefined, onSubmit }) => {
-	const { register, handleSubmit, setValue } = useForm();
+	const {
+		register,
+		handleSubmit,
+		setValue,
+		formState: { errors }
+	} = useForm();
 	const stepsize = 0.0000000000001;
 
 	const setDefaultValuesEncryption = (data: IEncryptionData) => {
