@@ -20,12 +20,8 @@ const Alert = (props: AlertProps) => <MuiAlert elevation={6} variant='filled' {.
 
 const App: React.FC = () => {
 	const INTERVAL = 10000; // in milliseconds
-	const MAX_LENGTH = 10;
-	const [videoData, setVideoData] = useState<IVideoData>();
-	const [framingData, setFramingData] = useState<IFramingData>();
-	const [encryptionData, setEncryptionData] = useState<IEncryptionData>();
 	const [allData, setAllData] = useState<IAllParsedResponse[]>();
-	const [currentTransmission, setCurrentTransmission] = useState<IParsedTransmission[]>([]);
+	const [currentTransmission, setCurrentTransmission] = useState<IParsedTransmission>();
 	const [errorStatusCode, setErrorStatusCode] = useState<number>(-1);
 	const [showSim, setShowSim] = useState(false);
 	const [isSimRunning, setIsSimRunning] = useState(false);
@@ -33,47 +29,26 @@ const App: React.FC = () => {
 	const [isSimAlreadyRunning, setIsSimAlreadyRunning] = useState(false);
 	const [showStopSim, setShowStopSim] = useState(false);
 
-	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
-		const response = await backend.get<T>(endpoint);
-		if (acc.length === MAX_LENGTH) acc.shift();
-		const newData = [...acc, response?.data];
-		setter(newData);
-		if (response.status === 200) await set(endpoint, newData);
-		setTimeout(() => pollData(newData, setter, endpoint), INTERVAL);
-	}
-
 	const fetchCurrentTransmission = () => {
 		backend
 			.get<ITransmissionData>('current')
 			.then((r) => {
-				setVideoData(r.data.video);
-				setFramingData(r.data.framing);
-				setEncryptionData(r.data.encryption);
-				setErrorStatusCode(r.status);
-				if (currentTransmission?.length === MAX_LENGTH) currentTransmission.shift();
-				setCurrentTransmission([
-					...currentTransmission,
-					{
-						transmissionTimestamp: dayjs(Date.now()).format('HH:mm'),
-						link: r.data.link,
-						encryption: r.data.encryption,
-						framing: r.data.framing,
-						video: r.data.video
-					}
-				]);
+				setCurrentTransmission({
+					transmissionTimestamp: dayjs(Date.now()).format('HH:mm:ss'),
+					link: r.data.link,
+					encryption: r.data.encryption,
+					framing: r.data.framing,
+					video: r.data.video
+				});
+				setTimeout(() => fetchCurrentTransmission(), INTERVAL);
 			})
 			.catch(() => setErrorStatusCode(404));
-		setTimeout(() => {
-			fetchCurrentTransmission();
-		}, INTERVAL);
 	};
 
 	const confirmPackage = (hash: string) => {
 		backend.get('confirm_package', { params: { hash: hash } }).then((r) => {
 			if (r.data === true) return;
-			else {
-				setTimeout(() => confirmPackage(hash), 1500);
-			}
+			else setTimeout(() => confirmPackage(hash), 1500);
 		});
 	};
 
@@ -131,12 +106,16 @@ const App: React.FC = () => {
 		backend
 			.get('current', { params: { start: true } })
 			.then(() => setIsSimRunning(true))
-			.catch(() => setIsSimAlreadyRunning(true));
+			.catch((err) => {
+				console.log(err);
+				setIsSimAlreadyRunning(true);
+			});
 
 	const onStopSimulation = () =>
 		backend.get('current', { params: { stop: true } }).then(() => {
 			setIsSimRunning(false);
 			setShowStopSim(true);
+			fetchAllData().then(() => console.log('New data fetched'));
 		});
 
 	useEffect(() => {
@@ -155,26 +134,20 @@ const App: React.FC = () => {
 				<Alert severity='info'>Simulation is running</Alert>
 			</Snackbar>
 			<Snackbar open={isSimAlreadyRunning} onClose={() => setIsSimAlreadyRunning(false)} autoHideDuration={2500} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-				<Alert severity='error'>Simulation is already running</Alert>
+				<Alert severity='error'>Something went wrong try again</Alert>
 			</Snackbar>
-			<Snackbar open={showStopSim} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-				<Alert severity='info'>Simulation is stopped</Alert>
+			<Snackbar open={showStopSim} onClose={() => setShowStopSim(false)} autoHideDuration={2500} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert severity='success'>Simulation saved</Alert>
 			</Snackbar>
 			<Switch>
-				<Route path='/video'>
-					<Video data={currentTransmission} />
-				</Route>
-				<Route path='/framing'>
-					<Framing data={currentTransmission} />
-				</Route>
 				<Route path='/history'>
 					<History data={allData ?? []} />
 				</Route>
 				<Route path='/settings'>
-					<Settings defaultValues={currentTransmission[currentTransmission.length - 1]} onSubmit={onSubmit} />
+					<Settings defaultValues={currentTransmission} onSubmit={onSubmit} />
 				</Route>
 				<Route path='/'>
-					<CardList currentSimulation={currentTransmission[currentTransmission.length - 1]} />
+					<CardList currentTransmission={currentTransmission} />
 					{showSim && <SimulationControl isRunning={isSimRunning} onStartCallback={onStartSimulation} onStopCallback={onStopSimulation} />}
 				</Route>
 			</Switch>

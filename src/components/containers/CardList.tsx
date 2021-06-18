@@ -9,8 +9,8 @@ type data = {
 };
 
 const cardData: data[] = [
-	{ title: 'Video', path: 'video' },
-	{ title: 'Framing', path: 'framing' },
+	{ title: 'Video', path: '' },
+	{ title: 'Framing', path: '' },
 	{ title: 'Encryption', path: '' }
 ];
 
@@ -33,10 +33,9 @@ const Card: React.FC<ICardProps> = ({ title, path, videoData, framingData, encry
 	</Link>
 );
 
-type ICardListProps = {
-	currentSimulation: IParsedTransmission;
-};
-const CardList: React.FC<ICardListProps> = ({ currentSimulation = {} }) => {
+type ICardListProps = { currentTransmission?: IParsedTransmission };
+
+const CardList: React.FC<ICardListProps> = ({ currentTransmission = {} }) => {
 	return (
 		<>
 			<div className='grid grid-rows-1 gap-8 md:grid-flow-col md:px-8 md:gap-4 my-16'>
@@ -45,9 +44,9 @@ const CardList: React.FC<ICardListProps> = ({ currentSimulation = {} }) => {
 						title={card.title}
 						path={card.path}
 						key={key}
-						videoData={currentSimulation.video}
-						framingData={currentSimulation.framing}
-						encryptionData={currentSimulation.encryption}
+						videoData={currentTransmission.video}
+						framingData={currentTransmission.framing}
+						encryptionData={currentTransmission.encryption}
 					/>
 				))}
 			</div>
@@ -72,6 +71,8 @@ const generateFramingCardData = (data: IFramingData | undefined) => {
 		<div className='px-4'>
 			<p>Errors detected: {data?.errors_detected}</p>
 			<p>Errors corrected: {data?.errors_corrected}</p>
+			<p>Error detection rate: {data?.error_det_rate}</p>
+			<p>Error correction rate: {data?.error_corr_rate}</p>
 		</div>
 	);
 };

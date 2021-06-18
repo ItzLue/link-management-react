@@ -25,9 +25,7 @@ const VideoChart: React.FC<IProps> = ({ transmissionData }) => {
 			{
 				label: 'Ping',
 				data: transmissionData.map((d) => d.video.ping),
-				fill: false,
-				backgroundColor: 'rgb(54,232,196)',
-				borderColor: 'rgba(76,250,193,0.2)'
+				backgroundColor: 'rgb(54,232,196)'
 			}
 		]
 	};

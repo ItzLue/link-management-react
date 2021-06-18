@@ -1,6 +1,6 @@
 import React from 'react';
 import { IParsedTransmission } from '../../types/api/data';
-import FramingChart from '../charts/FramingChart';
+import { FramingChartStackBar } from '../charts/FramingChart';
 
 type IProps = { data?: IParsedTransmission[] };
 
@@ -11,7 +11,7 @@ const Framing: React.FC<IProps> = ({ data }) => {
 				<h1 className='text-center text-2xl'>FRAMING DATA</h1>
 			</div>
 
-			<FramingChart transmissionData={data ?? []} />
+			<FramingChartStackBar transmissionData={data ?? []} />
 		</div>
 	);
 };
