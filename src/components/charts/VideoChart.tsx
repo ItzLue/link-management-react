@@ -1,28 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { IVideoData } from '../../types/api/data';
+import React from 'react';
+import { IParsedTransmission } from '../../types/api/data';
 import { Line } from 'react-chartjs-2';
 import dayjs from 'dayjs';
 
-type IProps = { videoData: IVideoData[] };
+type IProps = { transmissionData: IParsedTransmission[] };
 
-const VideoChart: React.FC<IProps> = ({ videoData }) => {
-	const [labels, setLabels] = useState<string[]>([]);
-
-	const makeTimeLabels = () => {
-		setInterval(() => {
-			const date = dayjs(Date.now()).format('HH:mm:ss').toString();
-			setLabels([...labels, date]);
-		}, 10000);
-	};
-
-	useEffect(() => makeTimeLabels(), [labels, setLabels]);
-
+const VideoChart: React.FC<IProps> = ({ transmissionData }) => {
 	const dataBitrate = {
-		labels,
+		labels: transmissionData.map((d) => dayjs(d.transmissionTimestamp).format('HH:mm:ss')),
 		datasets: [
 			{
 				label: 'Bitrate',
-				data: videoData.map((d) => d.packets_recevied),
+				data: transmissionData.map((d) => d.video.bitrate),
 				fill: false,
 				backgroundColor: 'rgb(255, 99, 132)',
 				borderColor: 'rgba(255, 99, 132, 0.2)'
@@ -31,14 +20,12 @@ const VideoChart: React.FC<IProps> = ({ videoData }) => {
 	};
 
 	const dataPing = {
-		labels: labels,
+		labels: transmissionData.map((d) => dayjs(d.transmissionTimestamp).format('HH:mm:ss')),
 		datasets: [
 			{
 				label: 'Ping',
-				data: videoData.map((d) => d.delay),
-				fill: false,
-				backgroundColor: 'rgb(54,232,196)',
-				borderColor: 'rgba(76,250,193,0.2)'
+				data: transmissionData.map((d) => d.video.ping),
+				backgroundColor: 'rgb(54,232,196)'
 			}
 		]
 	};

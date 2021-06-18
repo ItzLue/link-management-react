@@ -1,0 +1,23 @@
+export type ISettingsForm = {
+	encryption_process_time: number;
+	encryption_type: string;
+	encryption_encrypted: number;
+	framing_process_time: number;
+	framing_errors_detected: number;
+	framing_errors_corrected: number;
+	framing_error_det_rate: number;
+	framing_error_corr_rate: number;
+	framing_bit_change_rate: number;
+	framing_bits_changed: number;
+	video_max_package_size: number;
+	video_min_package_size: number;
+	video_ping: number;
+	video_protocol_version: number;
+	video_protocol: number;
+	video_bit_rate: number;
+	link_process_time: number;
+	link_video_packets_received: number;
+	link_video_delay: number;
+	link_framing_errors_detected: number;
+	link_framing_errors_corrected: number;
+};

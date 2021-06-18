@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Bar, Doughnut } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
 import { IFramingData, IParsedTransmission } from '../../types/api/data';
 import dayjs from 'dayjs';
 
 type IProps = { transmissionData: IParsedTransmission[] };
 
-export const FramingChartStackBar: React.FC<IProps> = ({ transmissionData }) => {
+export const EncryptionChart: React.FC<IProps> = ({ transmissionData }) => {
 	const data = {
 		labels: transmissionData.map((d) => dayjs(d.transmissionTimestamp).format('HH:mm:ss')),
 		datasets: [
 			{
-				label: 'Corrected errors',
-				data: transmissionData.map((d) => d.framing.errors_corrected),
+				label: 'Encrypted',
+				data: transmissionData.map((d) => d.encryption.encrypted),
 				backgroundColor: 'rgb(26,214,220)'
-			},
-			{
-				label: 'Detected errors',
-				data: transmissionData.map((d) => d.framing.errors_detected),
-				backgroundColor: 'rgb(255,0,0)'
 			}
 		]
 	};
@@ -26,15 +21,9 @@ export const FramingChartStackBar: React.FC<IProps> = ({ transmissionData }) => 
 		scales: {
 			yAxes: [
 				{
-					stacked: true,
 					ticks: {
 						beginAtZero: true
 					}
-				}
-			],
-			xAxes: [
-				{
-					stacked: true
 				}
 			]
 		}
@@ -49,10 +38,10 @@ export const FramingDoughnutChart: React.FC<IProps> = ({ transmissionData }) => 
 		datasets: [
 			{
 				label: 'Corrected errors',
-				data: [transmissionData[transmissionData.length - 1].framing.errors_corrected, transmissionData[transmissionData.length - 1].framing.errors_detected],
+				data: [1, 2],
 				backgroundColor: 'rgb(26,214,220)'
 			}
 		]
 	};
-	return <Doughnut data={data} type='doughnut' />;
+	return <></>;
 };

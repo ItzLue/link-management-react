@@ -7,7 +7,9 @@ module.exports = {
 		extend: {}
 	},
 	variants: {
-		extend: {}
+		extend: {
+			opacity: ['disabled'],
+		}
 	},
 	screens: {
 		standalone: {raw: "(displaymode: standalone)"}

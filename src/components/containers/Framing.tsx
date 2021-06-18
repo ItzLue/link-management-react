@@ -1,8 +1,8 @@
 import React from 'react';
-import { IFramingData } from '../../types/api/data';
-import FramingChart from '../charts/FramingChart';
+import { IParsedTransmission } from '../../types/api/data';
+import { FramingChartStackBar } from '../charts/FramingChart';
 
-type IProps = { data?: IFramingData[] };
+type IProps = { data?: IParsedTransmission[] };
 
 const Framing: React.FC<IProps> = ({ data }) => {
 	return (
@@ -11,7 +11,7 @@ const Framing: React.FC<IProps> = ({ data }) => {
 				<h1 className='text-center text-2xl'>FRAMING DATA</h1>
 			</div>
 
-			<FramingChart framingData={data ?? []} />
+			<FramingChartStackBar transmissionData={data ?? []} />
 		</div>
 	);
 };

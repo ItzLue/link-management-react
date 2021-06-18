@@ -1,8 +1,8 @@
 import React from 'react';
-import { IVideoData } from '../../types/api/data';
+import { IParsedTransmission, ITransmissionData, IVideoData } from '../../types/api/data';
 import VideoChart from '../charts/VideoChart';
 
-type IProps = { data?: IVideoData[] };
+type IProps = { data?: IParsedTransmission[] };
 
 const Video: React.FC<IProps> = ({ data }) => {
 	return (
@@ -19,7 +19,7 @@ const Video: React.FC<IProps> = ({ data }) => {
 				<p>The ping measures the minimum time needed to send the smallest amount of data and receive response</p>
 			</div>
 
-			<VideoChart videoData={data ?? []} />
+			<VideoChart transmissionData={data ?? []} />
 		</>
 	);
 };
