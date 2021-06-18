@@ -5,7 +5,7 @@ export const parseAllRawResponse = (response: IAllRawResponse): IAllParsedRespon
 	Object.keys(response).map((timestamp) => ({
 		simulationTimestamp: dayjs(timestamp).format('DD-MM-YYYY[ ]HH:mm'),
 		transmissions: Object.keys(response[timestamp]).map((trans: string) => ({
-			...response[timestamp][trans],
-			transmissionTimestamp: trans
+			...response[timestamp][dayjs(trans).format('DD-MM-YYYY[ ]HH:mm')],
+			transmissionTimestamp: dayjs(trans).format('DD-MM-YYYY[ ]HH:mm')
 		}))
 	}));

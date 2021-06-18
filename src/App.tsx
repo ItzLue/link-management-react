@@ -19,11 +19,13 @@ const App: React.FC = () => {
 	const INTERVAL = 10000; // in milliseconds
 	const [allData, setAllData] = useState<IAllParsedResponse[]>();
 	const [currentTransmission, setCurrentTransmission] = useState<IParsedTransmission>();
-	const [errorStatusCode, setErrorStatusCode] = useState<number>(-1);
+	const [showConnectionError, setShowConnectionError] = useState(false);
 	const [showSim, setShowSim] = useState(false);
-	const [isSimRunning, setIsSimRunning] = useState(false);
+	const [showSimIsRunning, setShowSimIsRunning] = useState(false);
 	const [isRealTransmission, setIsRealTransmission] = useState(false);
-	const [isSimAlreadyRunning, setIsSimAlreadyRunning] = useState(false);
+	const [showError, setShowError] = useState(false);
+	const [showChangesApplied, setShowChangesApplied] = useState(false);
+	const [showAlreadyRunniing, setIsSimAlreadyRunning] = useState(false);
 	const [showStopSim, setShowStopSim] = useState(false);
 
 	const fetchCurrentTransmission = () => {
@@ -37,27 +39,27 @@ const App: React.FC = () => {
 					framing: r.data.framing,
 					video: r.data.video
 				});
+				setShowSimIsRunning(true);
 			})
 			.catch(() => {
-				setErrorStatusCode(406);
-				setIsSimRunning(false);
+				setShowSimIsRunning(false);
 			});
 		setTimeout(() => fetchCurrentTransmission(), INTERVAL);
 	};
 
 	const confirmPackage = (hashes: IHash) => {
-		setTimeout(() => console.log('wait'),2000)
+		setTimeout(() => console.log('wait'), 2000);
 		const hash1 = backend.get('confirm_package', { params: { hash: hashes[0] } });
 		const hash2 = backend.get('confirm_package', { params: { hash: hashes[1] } });
-		const hash3 = backend.get('confirm_package', { params: { hash: hashes[2] } })
-		const hash4 = backend.get('confirm_package', { params: { hash: hashes[3] } })
+		const hash3 = backend.get('confirm_package', { params: { hash: hashes[2] } });
+		const hash4 = backend.get('confirm_package', { params: { hash: hashes[3] } });
 
-		Promise.all([hash1,hash2,hash3,hash4]).then((r) => {
+		Promise.all([hash1, hash2, hash3, hash4]).then((r) => {
 			r.map((t) => {
 				if (t.data === true) return;
-				else setTimeout(() => confirmPackage(hashes),1500);
-			})
-		})
+				else setTimeout(() => confirmPackage(hashes), 1500);
+			});
+		});
 	};
 
 	const fetchAllData = () => backend.get('all').then((r) => setAllData(parseAllRawResponse(r.data).reverse()));
@@ -95,11 +97,12 @@ const App: React.FC = () => {
 				video_packets_received: 0
 			}
 		};
-
-		if (!isSimRunning) {
+		if (!showSimIsRunning) {
 			backend
 				.post('change/before', object)
-				.then(() => setIsSimRunning(true))
+				.then(() => {
+					setShowChangesApplied(true);
+				})
 				.catch(() => console.log('Failed to post'));
 		} else {
 			backend
@@ -107,7 +110,7 @@ const App: React.FC = () => {
 				.then((r) => {
 					const hashes: string[] = r.data;
 					confirmPackage(hashes);
-					setIsSimRunning(true);
+					setShowChangesApplied(true);
 				})
 				.catch(() => console.log('Failed to post'));
 		}
@@ -116,39 +119,44 @@ const App: React.FC = () => {
 	const onStartSimulation = () =>
 		backend
 			.get('current', { params: { start: true } })
-			.then(() => setIsSimRunning(true))
+			.then(() => setShowSimIsRunning(true))
 			.catch(() => setIsSimAlreadyRunning(true));
 
-	const onStopSimulation = () =>
-		backend.get('current', { params: { stop: true } }).then(() => {
-			setIsSimRunning(false);
-			setShowStopSim(true);
-			fetchAllData().then(() => console.log('New data fetched'));
-		});
+	const onStopSimulation = () => {
+		setShowSimIsRunning(false);
+		backend
+			.get('current', { params: { stop: true } })
+			.then(() => {
+				fetchAllData().then(() => console.log('New data fetched'));
+				setShowStopSim(true);
+			})
+			.catch(() => setShowError(true));
+	};
 
 	useEffect(() => {
-		fetchAllData().catch((r) => {
-			setErrorStatusCode(r.status);
-			console.log(r);
-		});
+		fetchAllData().catch(() => setShowConnectionError(true));
 		fetchCurrentTransmission();
 	}, []);
 
 	return (
 		<Router>
-			{errorStatusCode >= 400 && (
-				<Snackbar open={errorStatusCode >= 400} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-					<Alert severity='error'>No connection to the server!</Alert>
-				</Snackbar>
-			)}
-			<Snackbar open={isSimRunning} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+			<Snackbar open={showConnectionError} onClose={() => setShowConnectionError(false)} autoHideDuration={10000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert severity='error'>No connection to the server!</Alert>
+			</Snackbar>
+			<Snackbar open={showSimIsRunning} onClose={() => setShowSimIsRunning(false)} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
 				<Alert severity='info'>Simulation is running</Alert>
 			</Snackbar>
-			<Snackbar open={isSimAlreadyRunning} onClose={() => setIsSimAlreadyRunning(false)} autoHideDuration={2500} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-				<Alert severity='error'>Something went wrong try again</Alert>
+			<Snackbar open={showStopSim} autoHideDuration={2500} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert severity='success'>Simulation saved</Alert>
+			</Snackbar>
+			<Snackbar open={showError} onClose={() => setShowError(false)} autoHideDuration={2500} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert severity='error'>Something went wrong, try again</Alert>
 			</Snackbar>
 			<Snackbar open={showStopSim} onClose={() => setShowStopSim(false)} autoHideDuration={2500} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
 				<Alert severity='success'>Simulation saved</Alert>
+			</Snackbar>
+			<Snackbar open={showChangesApplied} onClose={() => setShowChangesApplied(false)} autoHideDuration={2500} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert severity='success'>Settings saved</Alert>
 			</Snackbar>
 			<Switch>
 				<Route path='/history'>
@@ -159,7 +167,7 @@ const App: React.FC = () => {
 				</Route>
 				<Route path='/'>
 					<CardList currentTransmission={currentTransmission} />
-					{showSim && <SimulationControl isRunning={isSimRunning} onStartCallback={onStartSimulation} onStopCallback={onStopSimulation} />}
+					{showSim && <SimulationControl isRunning={showSimIsRunning} onStartCallback={onStartSimulation} onStopCallback={onStopSimulation} />}
 				</Route>
 			</Switch>
 			<Navigation isSimStarted={showSim} isRealTransmission={isRealTransmission} onToggle={() => setShowSim(!showSim)} />
