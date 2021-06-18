@@ -47,6 +47,8 @@ export type ITransmissionData = {
 	video: IVideoData;
 };
 
+export type IHash = string[]
+
 export type IParsedTransmission = { transmissionTimestamp: string } & ITransmissionData;
 export type IAllParsedResponse = { simulationTimestamp: string; transmissions: IParsedTransmission[] };
 export type IAllRawResponse = Record<string, IRawResponse>;

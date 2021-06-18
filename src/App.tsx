@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IAllParsedResponse, IParsedTransmission, ITransmissionData } from './types/api/data';
+import { IAllParsedResponse, IHash, IParsedTransmission, ITransmissionData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CardList from './components/containers/CardList';
 import Navigation from './components/navigation/Navigation';
@@ -12,6 +12,8 @@ import dayjs from 'dayjs';
 import { ISettingsForm } from './types/settings-form';
 import { Snackbar } from '@material-ui/core';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { has } from 'lodash-es';
+import { log } from 'util';
 
 const Alert = (props: AlertProps) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -40,21 +42,29 @@ const App: React.FC = () => {
 			})
 			.catch(() => {
 				setErrorStatusCode(406);
-				setIsSimRunning(false)
+				setIsSimRunning(false);
 			});
 		setTimeout(() => fetchCurrentTransmission(), INTERVAL);
 	};
 
-	const confirmPackage = (hash: string) => {
-		backend.get('confirm_package', { params: { hash: hash } }).then((r) => {
-			if (r.data === true) return;
-			else setTimeout(() => confirmPackage(hash), 1500);
-		});
+	const confirmPackage = (hashes: IHash) => {
+		setTimeout(() => console.log('wait'),2000)
+		const hash1 = backend.get('confirm_package', { params: { hash: hashes[0] } });
+		const hash2 = backend.get('confirm_package', { params: { hash: hashes[1] } });
+		const hash3 = backend.get('confirm_package', { params: { hash: hashes[2] } })
+		const hash4 = backend.get('confirm_package', { params: { hash: hashes[3] } })
+
+		Promise.all([hash1,hash2,hash3,hash4]).then((r) => {
+			r.map((t) => {
+				if (t.data === true) return;
+				else setTimeout(() => confirmPackage(hashes),1500);
+			})
+		})
 	};
 
 	const fetchAllData = () => backend.get('all').then((r) => setAllData(parseAllRawResponse(r.data).reverse()));
 
-	const onSubmit = (data: ISettingsForm) => {
+	const onSubmit = async (data: ISettingsForm) => {
 		const object = {
 			video: {
 				bitrate: Number(data.video_bit_rate),
@@ -97,8 +107,8 @@ const App: React.FC = () => {
 			backend
 				.post('change/after', object)
 				.then((r) => {
-					const hash = r.data;
-					confirmPackage(hash);
+					const hashes: string[] = r.data;
+					confirmPackage(hashes);
 					setIsSimRunning(true);
 				})
 				.catch(() => console.log('Failed to post'));
@@ -123,7 +133,7 @@ const App: React.FC = () => {
 			setErrorStatusCode(r.status);
 			console.log(r);
 		});
-			fetchCurrentTransmission();
+		fetchCurrentTransmission();
 	}, []);
 
 	return (
