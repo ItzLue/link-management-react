@@ -19,6 +19,8 @@ export type IFramingData = {
 	errors_detected: number;
 	errors_corrected: number;
 	process_time: number;
+	bit_change_rate: number;
+	bits_changed: number;
 };
 
 export type ILinkData = {

@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { IAllParsedResponse, IEncryptionData, IFramingData, IParsedTransmission, ITransmissionData, IVideoData } from './types/api/data';
+import { IAllParsedResponse, IParsedTransmission, ITransmissionData } from './types/api/data';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CardList from './components/containers/CardList';
 import Navigation from './components/navigation/Navigation';
-import Video from './components/containers/Video';
 import History from './components/containers/History';
-import Framing from './components/containers/Framing';
 import Settings from './components/containers/Settings';
 import { backend } from './api';
-import { set } from 'idb-keyval';
 import SimulationControl from './components/containers/SimulationControl';
 import { parseAllRawResponse } from './parser';
 import dayjs from 'dayjs';
@@ -30,6 +27,7 @@ const App: React.FC = () => {
 	const [showStopSim, setShowStopSim] = useState(false);
 
 	const fetchCurrentTransmission = () => {
+		if (!isSimRunning) return;
 		backend
 			.get<ITransmissionData>('current')
 			.then((r) => {
@@ -42,7 +40,7 @@ const App: React.FC = () => {
 				});
 				setTimeout(() => fetchCurrentTransmission(), INTERVAL);
 			})
-			.catch(() => setErrorStatusCode(404));
+			.catch(() => setErrorStatusCode(406));
 	};
 
 	const confirmPackage = (hash: string) => {
@@ -73,16 +71,18 @@ const App: React.FC = () => {
 				error_corr_rate: Number(data.framing_error_corr_rate),
 				error_det_rate: Number(data.framing_error_det_rate),
 				process_time: Number(data.framing_process_time),
-				errors_detected: 1,
-				errors_corrected: 1
+				errors_detected: 0,
+				errors_corrected: 0,
+				bit_change_rate: Number(data.framing_bit_change_rate),
+				bits_changed: 0
 			},
 			link: {
 				video_delay: Number(data.link_video_delay),
 				video_bitrate: Number(data.video_bit_rate),
 				process_time: Number(data.link_process_time),
-				framing_errors_corrected: 1,
-				framing_errors_detected: 1,
-				video_packets_received: 1
+				framing_errors_corrected: 0,
+				framing_errors_detected: 0,
+				video_packets_received: 0
 			}
 		};
 		if (!isSimRunning) {
@@ -119,8 +119,10 @@ const App: React.FC = () => {
 		});
 
 	useEffect(() => {
-		fetchAllData().catch((r) => setErrorStatusCode(r.status));
-		fetchCurrentTransmission();
+		fetchAllData().catch((r) => {
+			setErrorStatusCode(r.status);
+			console.log(r);
+		});
 	}, []);
 
 	return (

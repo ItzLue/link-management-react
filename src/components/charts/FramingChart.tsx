@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import { IFramingData, IParsedTransmission } from '../../types/api/data';
 import dayjs from 'dayjs';
 
@@ -49,10 +49,10 @@ export const FramingDoughnutChart: React.FC<IProps> = ({ transmissionData }) => 
 		datasets: [
 			{
 				label: 'Corrected errors',
-				data: [1, 2],
+				data: [transmissionData[transmissionData.length - 1].framing.errors_corrected, transmissionData[transmissionData.length - 1].framing.errors_detected],
 				backgroundColor: 'rgb(26,214,220)'
 			}
 		]
 	};
-	return <></>;
+	return <Doughnut data={data} type='doughnut' />;
 };

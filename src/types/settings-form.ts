@@ -7,6 +7,8 @@ export type ISettingsForm = {
 	framing_errors_corrected: number;
 	framing_error_det_rate: number;
 	framing_error_corr_rate: number;
+	framing_bit_change_rate: number;
+	framing_bits_changed: number;
 	video_max_package_size: number;
 	video_min_package_size: number;
 	video_ping: number;

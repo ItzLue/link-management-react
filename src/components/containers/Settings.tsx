@@ -25,6 +25,7 @@ const Settings: React.FC<IProps> = ({ defaultValues = undefined, onSubmit }) => 
 	};
 
 	const setDefaultValuesFraming = (data: IFramingData) => {
+		setValue('bit_change_rate', data.bit_change_rate);
 		setValue('encryption_process_time', data.process_time);
 		setValue('framing_error_det_rate', data.error_det_rate);
 		setValue('framing_error_corr_rate', data.error_corr_rate);
@@ -95,6 +96,10 @@ const Settings: React.FC<IProps> = ({ defaultValues = undefined, onSubmit }) => 
 			<div>
 				<label>Framing error correction rate</label>
 				<input type='number' placeholder='0.3' className={inputClassName} step={stepsize} {...register('framing_error_corr_rate', { required: true })} />
+			</div>
+			<div>
+				<label>Bits change rate</label>
+				<input type='number' placeholder='0.3' className={inputClassName} step={stepsize} {...register('bit_change_rate', { required: true })} />
 			</div>
 
 			<h1>Video</h1>
