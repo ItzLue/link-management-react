@@ -12,8 +12,6 @@ import dayjs from 'dayjs';
 import { ISettingsForm } from './types/settings-form';
 import { Snackbar } from '@material-ui/core';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { has } from 'lodash-es';
-import { log } from 'util';
 
 const Alert = (props: AlertProps) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
