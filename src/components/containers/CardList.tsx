@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IEncryptionData, IFramingData, IVideoData } from '../../types/api/data';
+import { IEncryptionData, IFramingData, IParsedTransmission, IVideoData } from '../../types/api/data';
 import { HiLockClosed, HiLockOpen, HiRefresh } from 'react-icons/all';
 
 type data = {
@@ -34,16 +34,21 @@ const Card: React.FC<ICardProps> = ({ title, path, videoData, framingData, encry
 );
 
 type ICardListProps = {
-	videoData?: IVideoData;
-	framingData?: IFramingData;
-	encryptionData?: IEncryptionData;
+	currentSimulation: IParsedTransmission;
 };
-const CardList: React.FC<ICardListProps> = ({ videoData, framingData, encryptionData }) => {
+const CardList: React.FC<ICardListProps> = ({ currentSimulation = {} }) => {
 	return (
 		<>
 			<div className='grid grid-rows-1 gap-8 md:grid-flow-col md:px-8 md:gap-4 my-16'>
 				{cardData.map((card, key) => (
-					<Card title={card.title} path={card.path} key={key} videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
+					<Card
+						title={card.title}
+						path={card.path}
+						key={key}
+						videoData={currentSimulation.video}
+						framingData={currentSimulation.framing}
+						encryptionData={currentSimulation.encryption}
+					/>
 				))}
 			</div>
 		</>

@@ -78,7 +78,7 @@ const Settings: React.FC<IProps> = ({ defaultValues = undefined, onSubmit }) => 
 						RSA
 					</option>
 					<option value='AES' disabled={true}>
-						IPv6
+						AES
 					</option>
 				</select>
 			</div>

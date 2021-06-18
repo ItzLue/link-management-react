@@ -13,6 +13,11 @@ const FramingChart: React.FC<IProps> = ({ transmissionData }) => {
 				label: 'Corrected errors',
 				data: transmissionData.map((d) => d.framing.errors_corrected),
 				backgroundColor: 'rgb(26,214,220)'
+			},
+			{
+				label: 'Detected errors',
+				data: transmissionData.map((d) => d.framing.errors_detected),
+				backgroundColor: 'rgb(255,0,0)'
 			}
 		]
 	};

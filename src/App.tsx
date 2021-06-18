@@ -20,7 +20,7 @@ const Alert = (props: AlertProps) => <MuiAlert elevation={6} variant='filled' {.
 
 const App: React.FC = () => {
 	const INTERVAL = 10000; // in milliseconds
-	const MAX_LENGTH = 5;
+	const MAX_LENGTH = 10;
 	const [videoData, setVideoData] = useState<IVideoData>();
 	const [framingData, setFramingData] = useState<IFramingData>();
 	const [encryptionData, setEncryptionData] = useState<IEncryptionData>();
@@ -30,6 +30,8 @@ const App: React.FC = () => {
 	const [showSim, setShowSim] = useState(false);
 	const [isSimRunning, setIsSimRunning] = useState(false);
 	const [isRealTransmission, setIsRealTransmission] = useState(false);
+	const [isSimAlreadyRunning, setIsSimAlreadyRunning] = useState(false);
+	const [showStopSim, setShowStopSim] = useState(false);
 
 	async function pollData<T>(acc: any[], setter: any, endpoint: string): Promise<void> {
 		const response = await backend.get<T>(endpoint);
@@ -59,11 +61,11 @@ const App: React.FC = () => {
 						video: r.data.video
 					}
 				]);
-				setIsSimRunning(true);
-				setShowSim(true);
 			})
 			.catch(() => setErrorStatusCode(404));
-		setTimeout(() => fetchCurrentTransmission(), INTERVAL);
+		setTimeout(() => {
+			fetchCurrentTransmission();
+		}, INTERVAL);
 	};
 
 	const confirmPackage = (hash: string) => {
@@ -125,11 +127,16 @@ const App: React.FC = () => {
 		}
 	};
 
-	const onStartSimulation = () => backend.get('current', { params: { start: true } }).then(() => setIsSimRunning(true));
+	const onStartSimulation = () =>
+		backend
+			.get('current', { params: { start: true } })
+			.then(() => setIsSimRunning(true))
+			.catch(() => setIsSimAlreadyRunning(true));
 
 	const onStopSimulation = () =>
 		backend.get('current', { params: { stop: true } }).then(() => {
 			setIsSimRunning(false);
+			setShowStopSim(true);
 		});
 
 	useEffect(() => {
@@ -147,6 +154,12 @@ const App: React.FC = () => {
 			<Snackbar open={isSimRunning} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
 				<Alert severity='info'>Simulation is running</Alert>
 			</Snackbar>
+			<Snackbar open={isSimAlreadyRunning} onClose={() => setIsSimAlreadyRunning(false)} autoHideDuration={2500} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert severity='error'>Simulation is already running</Alert>
+			</Snackbar>
+			<Snackbar open={showStopSim} autoHideDuration={6000} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert severity='info'>Simulation is stopped</Alert>
+			</Snackbar>
 			<Switch>
 				<Route path='/video'>
 					<Video data={currentTransmission} />
@@ -161,7 +174,7 @@ const App: React.FC = () => {
 					<Settings defaultValues={currentTransmission[currentTransmission.length - 1]} onSubmit={onSubmit} />
 				</Route>
 				<Route path='/'>
-					<CardList videoData={videoData} framingData={framingData} encryptionData={encryptionData} />
+					<CardList currentSimulation={currentTransmission[currentTransmission.length - 1]} />
 					{showSim && <SimulationControl isRunning={isSimRunning} onStartCallback={onStartSimulation} onStopCallback={onStopSimulation} />}
 				</Route>
 			</Switch>
