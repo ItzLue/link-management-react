@@ -27,7 +27,6 @@ const App: React.FC = () => {
 	const [showStopSim, setShowStopSim] = useState(false);
 
 	const fetchCurrentTransmission = () => {
-		if (!isSimRunning) return;
 		backend
 			.get<ITransmissionData>('current')
 			.then((r) => {
@@ -38,9 +37,12 @@ const App: React.FC = () => {
 					framing: r.data.framing,
 					video: r.data.video
 				});
-				setTimeout(() => fetchCurrentTransmission(), INTERVAL);
 			})
-			.catch(() => setErrorStatusCode(406));
+			.catch(() => {
+				setErrorStatusCode(406);
+				setIsSimRunning(false)
+			});
+		setTimeout(() => fetchCurrentTransmission(), INTERVAL);
 	};
 
 	const confirmPackage = (hash: string) => {
@@ -85,6 +87,7 @@ const App: React.FC = () => {
 				video_packets_received: 0
 			}
 		};
+
 		if (!isSimRunning) {
 			backend
 				.post('change/before', object)
@@ -106,10 +109,7 @@ const App: React.FC = () => {
 		backend
 			.get('current', { params: { start: true } })
 			.then(() => setIsSimRunning(true))
-			.catch((err) => {
-				console.log(err);
-				setIsSimAlreadyRunning(true);
-			});
+			.catch(() => setIsSimAlreadyRunning(true));
 
 	const onStopSimulation = () =>
 		backend.get('current', { params: { stop: true } }).then(() => {
@@ -123,6 +123,7 @@ const App: React.FC = () => {
 			setErrorStatusCode(r.status);
 			console.log(r);
 		});
+			fetchCurrentTransmission();
 	}, []);
 
 	return (
