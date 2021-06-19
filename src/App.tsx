@@ -22,6 +22,7 @@ const App: React.FC = () => {
 	const [showConnectionError, setShowConnectionError] = useState(false);
 	const [showSim, setShowSim] = useState(false);
 	const [showSimIsRunning, setShowSimIsRunning] = useState(false);
+	const [isSimRunning, setIsSimRunning] = useState(false)
 	const [isRealTransmission, setIsRealTransmission] = useState(false);
 	const [showError, setShowError] = useState(false);
 	const [showChangesApplied, setShowChangesApplied] = useState(false);
@@ -40,15 +41,17 @@ const App: React.FC = () => {
 					video: r.data.video
 				});
 				setShowSimIsRunning(true);
+				setIsSimRunning(true)
 			})
 			.catch(() => {
 				setShowSimIsRunning(false);
+				setIsSimRunning(false)
 			});
 		setTimeout(() => fetchCurrentTransmission(), INTERVAL);
 	};
 
 	const confirmPackage = (hashes: IHash) => {
-		setTimeout(() => console.log('wait'), 2000);
+		setTimeout(() => console.log(), 2000);
 		const hash1 = backend.get('confirm_package', { params: { hash: hashes[0] } });
 		const hash2 = backend.get('confirm_package', { params: { hash: hashes[1] } });
 		const hash3 = backend.get('confirm_package', { params: { hash: hashes[2] } });
@@ -97,7 +100,7 @@ const App: React.FC = () => {
 				video_packets_received: 0
 			}
 		};
-		if (!showSimIsRunning) {
+		if (!isSimRunning) {
 			backend
 				.post('change/before', object)
 				.then(() => {

@@ -16,7 +16,7 @@ const Settings: React.FC<IProps> = ({ defaultValues = undefined, onSubmit }) => 
 		setValue,
 		formState: { errors }
 	} = useForm();
-	const stepsize = 0.0000000000001;
+	const stepsize = 0.00000000000000000000000000000000000000000000001;
 
 	const setDefaultValuesEncryption = (data: IEncryptionData) => {
 		setValue('framing_process_time', data.process_time);
