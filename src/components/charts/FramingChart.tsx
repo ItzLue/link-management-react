@@ -7,7 +7,7 @@ type IProps = { transmissionData: IParsedTransmission[] };
 
 export const FramingChartStackBar: React.FC<IProps> = ({ transmissionData }) => {
 	const data = {
-		labels: transmissionData.map((d) => dayjs(d.transmissionTimestamp).format('HH:mm:ss')),
+		labels: transmissionData.map((d) => d.transmissionTimestamp),
 		datasets: [
 			{
 				label: 'Corrected errors',
