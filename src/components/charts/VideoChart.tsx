@@ -7,7 +7,7 @@ type IProps = { transmissionData: IParsedTransmission[] };
 
 const VideoChart: React.FC<IProps> = ({ transmissionData }) => {
 	const dataBitrate = {
-		labels: transmissionData.map((d) => dayjs(d.transmissionTimestamp).format('HH:mm:ss')),
+		labels: transmissionData.map((d) =>dayjs(d.transmissionTimestamp).format('HH:mm:ss')),
 		datasets: [
 			{
 				label: 'Bitrate',

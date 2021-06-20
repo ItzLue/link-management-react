@@ -6,16 +6,21 @@ import { FaHistory } from 'react-icons/fa';
 import VideoChart from '../charts/VideoChart';
 import { FramingChartStackBar, FramingDoughnutChart } from '../charts/FramingChart';
 import { EncryptionChart } from '../charts/EncryptionChart';
+import dayjs from 'dayjs';
 
 type IProps = { data: IAllParsedResponse[] };
 
 const History: React.FC<IProps> = ({ data }) => {
 	return (
 		<div className='w-full px-4 py-24'>
-			<h1 className='text-center text-2xl'>
-				<FaHistory className='mr-2 inline' />
-				Previous transmissions
-			</h1>
+			<div className='text-center space-y-3'>
+				<h1 className=' text-2xl'>
+					<FaHistory className='mr-2 inline' />
+					Previous simulations
+				</h1>
+				<p>{`Total amount of simulations: ${data.length}`}</p>
+				<p>{`Total amount of transmissions: ${data.reduce((acc, curr) => acc + (curr.transmissions.length ? curr.transmissions.length : 1), 0)}`}</p>
+			</div>
 			<div className='grid space-y-4'>{generatePanels(data)}</div>
 		</div>
 	);
@@ -29,7 +34,10 @@ const generatePanels = (data: IAllParsedResponse[]) =>
 			{({ open }) => (
 				<>
 					<Disclosure.Button className='flex justify-between w-full px-4 py-2 text-sm font-medium text-left text-purple-900 bg-purple-100 rounded-lg hover:bg-purple-200 focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75'>
-						<span>{d.simulationTimestamp}</span>
+						<div className='flex flex-col'>
+							<span>{`Started: ${d.simulationTimestamp}`}</span>
+							<span>{`Ended: ${dayjs(d.transmissions[d.transmissions.length - 1].transmissionTimestamp).format('DD/MM/YYYY HH:mm:ss')}`}</span>
+						</div>
 						<HiArrowNarrowDown className={`${open ? 'transform rotate-180' : ''} w-5 h-5 text-purple-500`} />
 					</Disclosure.Button>
 					{generateVideoPanel(d.transmissions)}
