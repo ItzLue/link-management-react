@@ -12,7 +12,9 @@ import dayjs from 'dayjs';
 import { ISettingsForm } from './types/settings-form';
 import { Snackbar } from '@material-ui/core';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
-import { set } from 'idb-keyval';
+import { set, createStore } from 'idb-keyval';
+
+const customStore = createStore('link-management','simulations');
 
 const Alert = (props: AlertProps) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -71,7 +73,7 @@ const App: React.FC = () => {
 			const parsed = parseAllRawResponse(r.data);
 			setAllData(parsed.reverse());
 			parsed.map((s) => {
-				set(s.simulationTimestamp, s.transmissions);
+				set(s.simulationTimestamp, s.transmissions,customStore);
 			});
 		});
 

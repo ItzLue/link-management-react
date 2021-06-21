@@ -9,6 +9,6 @@ const API_URLS = {
 };
 
 export const backend = axios.create({
-	baseURL: `${API_URLS.loui}/api/sim/data/`,
+	baseURL: `${API_URLS.localhost}/api/sim/data/`,
 	params: { api_key: 'd14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f' }
 });
