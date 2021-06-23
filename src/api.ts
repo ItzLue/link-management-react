@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URLS = {
 	localhost: 'http://127.0.0.1:8000',
-	loui: 'http://192.168.1.145:8000/',
+	loui: 'http://192.168.1.141:8000/',
 	frederik: 'http://10.16.171.157:8000',
 	sophus: 'http://10.16.171.17:8000',
 	live: 'https://34229link.miew.org/'

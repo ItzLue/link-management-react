@@ -12,6 +12,9 @@ import dayjs from 'dayjs';
 import { ISettingsForm } from './types/settings-form';
 import { Snackbar } from '@material-ui/core';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { set, createStore } from 'idb-keyval';
+
+const customStore = createStore('link-management','simulations');
 
 const Alert = (props: AlertProps) => <MuiAlert elevation={6} variant='filled' {...props} />;
 
@@ -22,7 +25,7 @@ const App: React.FC = () => {
 	const [showConnectionError, setShowConnectionError] = useState(false);
 	const [showSim, setShowSim] = useState(false);
 	const [showSimIsRunning, setShowSimIsRunning] = useState(false);
-	const [isSimRunning, setIsSimRunning] = useState(false)
+	const [isSimRunning, setIsSimRunning] = useState(false);
 	const [isRealTransmission, setIsRealTransmission] = useState(false);
 	const [showError, setShowError] = useState(false);
 	const [showChangesApplied, setShowChangesApplied] = useState(false);
@@ -41,11 +44,11 @@ const App: React.FC = () => {
 					video: r.data.video
 				});
 				setShowSimIsRunning(true);
-				setIsSimRunning(true)
+				setIsSimRunning(true);
 			})
 			.catch(() => {
 				setShowSimIsRunning(false);
-				setIsSimRunning(false)
+				setIsSimRunning(false);
 			});
 		setTimeout(() => fetchCurrentTransmission(), INTERVAL);
 	};
@@ -65,7 +68,14 @@ const App: React.FC = () => {
 		});
 	};
 
-	const fetchAllData = () => backend.get('all').then((r) => setAllData(parseAllRawResponse(r.data).reverse()));
+	const fetchAllData = () =>
+		backend.get('all').then((r) => {
+			const parsed = parseAllRawResponse(r.data);
+			setAllData(parsed.reverse());
+			parsed.map((s) => {
+				set(s.simulationTimestamp, s.transmissions,customStore);
+			});
+		});
 
 	const onSubmit = async (data: ISettingsForm) => {
 		const object = {
